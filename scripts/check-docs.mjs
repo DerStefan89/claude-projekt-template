@@ -65,6 +65,25 @@ function sammleDateinamen(dir, sammlung = new Set()) {
 
 const alleDateinamenImRepo = sammleDateinamen('.')
 
+// Absichtlich abwesende Dateien (z. B. via .gitignore) sind kein toter
+// Verweis — z. B. `.claude/settings.local.json`, die per SETUP.md Punkt 7
+// nie committet werden soll. Ein Verweis darauf gilt nur dann als Befund,
+// wenn die Datei weder existiert noch in .gitignore gelistet ist.
+const gitignoreZeilen = existsSync('.gitignore')
+  ? readFileSync('.gitignore', 'utf-8')
+      .split('\n')
+      .map((z) => z.trim())
+      .filter((z) => z && !z.startsWith('#') && !z.startsWith('!'))
+  : []
+
+function istInGitignoreGelistet(pfad) {
+  const basisname = pfad.split('/').pop()
+  return gitignoreZeilen.some((zeile) => {
+    const bereinigt = zeile.replace(/^\/+|\/+$/g, '')
+    return bereinigt === pfad || bereinigt.split('/').pop() === basisname
+  })
+}
+
 for (const datei of anweisungsDateien) {
   if (!existsSync(datei)) continue
   const zeilen = readFileSync(datei, 'utf-8').split('\n')
@@ -76,6 +95,7 @@ for (const datei of anweisungsDateien) {
       zeile.match(/`[a-zA-Z0-9_\-./[\]]+\.(md|ts|tsx|js|mjs|json)`/g) ?? []
     )) {
       const pfad = roh.replaceAll('`', '')
+      if (istInGitignoreGelistet(pfad)) continue
 
       if (pfad.includes('/')) {
         if (!existsSync(pfad)) {
@@ -101,7 +121,10 @@ for (const datei of anweisungsDateien) {
 
 const versionsMuster = [
   /\bv?\d+\.\d+\.\d+\b/g,
-  /\b([A-Z][a-zA-Z.]*(?:\s[A-Z][a-zA-Z.]*)?)\s+v?\d[\d.]*/g, // [FÜLLUNG]: Platzhalter, ersetzt konkrete Techniknamen
+  // Zahl muss ein `v`-Präfix ODER mindestens einen Punkt haben — sonst
+  // greift das Muster an jeder Zahl nach einem großgeschriebenen Wort,
+  // z. B. "Exit 0" in der Befehlsübersicht (kein Versionsverweis).
+  /\b([A-Z][a-zA-Z.]*(?:\s[A-Z][a-zA-Z.]*)?)\s+(?:v\d[\d.]*|\d+\.\d[\d.]*)/g, // [FÜLLUNG]: Platzhalter, ersetzt konkrete Techniknamen
 ]
 
 const istDatum = (treffer) => /^\d{1,2}\.\d{1,2}\.\d{4}$/.test(treffer)

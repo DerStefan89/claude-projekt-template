@@ -20,7 +20,9 @@ jobs:
         uses: actions/setup-node@v5
         with:
           node-version-file: package.json
-          cache: 'npm'
+          # cache: 'npm' wieder aktivieren, sobald das Projekt echte
+          # Dependencies und eine package-lock.json hat — ohne Lock-Datei
+          # bricht setup-node hier ab.
 
       - name: Abhängigkeiten installieren
         run: npm install
