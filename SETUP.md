@@ -1,8 +1,7 @@
 # SETUP — Schritte, die kein Template als Datei mitbringen kann
 
 Diese Liste existiert, weil ein Repo-Klon nicht alles trägt. Ein Klon ohne
-diese Schritte sieht komplett aus und hält an der wichtigsten Stelle nichts
-(Befund G10, `claude-playbook/INVENTAR-HARNESS-6.5.md`).
+diese Schritte sieht komplett aus und hält an der wichtigsten Stelle nichts.
 
 ## 1. Branch Protection auf `main`, ohne Admin-Bypass
 
@@ -14,7 +13,14 @@ GitHub → Settings → Branches → Branch protection rule für `main`:
   aus `.github/workflows/ci.yml`) als Required Status Check auswählen
 - **„Do not allow bypassing the above settings" aktivieren** — sonst kann
   der Repo-Admin (also du) das Gate im Zweifel selbst umgehen, ohne dass es
-  auffällt. Genau das war der erste Kalibrierungsfund in `toolkompass`.
+  auffällt.
+
+**Vorher den Tarif prüfen:** Bei *privaten* Repos auf einem persönlichen
+GitHub-Free-Konto lässt sich die Regel anlegen, wird aber **nicht
+durchgesetzt** (GitHub zeigt sie als „Not enforced"). Erforderlich sind
+GitHub Pro oder ein Team-/Enterprise-Konto; bei öffentlichen Repos greift
+sie auch im Free-Tarif. Ohne das ist dieses Gate nur beschriftet, nicht
+wirksam.
 
 Gegentest nicht vergessen: einmal versuchen, mit rotem CI zu mergen — muss
 scheitern. Danach in `state/gates.md` eintragen, mit Datum.
@@ -47,17 +53,17 @@ die Schritte darin nicht.
 ## 4. `check-rules.mjs` befüllen
 
 Kommt leer mit dem Template — ein AST-Harness ohne Regeln. Die ersten
-Regeln entstehen aus echten Wiederholungen im eigenen Code (Beförderungsregel
-aus `ANHANG-A`, sinngemäß auf Code statt Prompts angewandt: taucht derselbe
-Fehler dreimal auf, wird er zur Regel).
+Regeln entstehen aus echten Wiederholungen im eigenen Code. Beförderungsregel:
+Taucht derselbe Fehler dreimal auf, wird er zur Regel — vorher nicht. Eine
+ausgedachte Regel ist ungeprüft und kostet vom ersten Tag an Reibung.
 
 ## 5. Doku-Gate: Dokument-Paare anpassen
 
 `scripts/check-docs.mjs`, Prüfung 4 (`dokumentPaare`), kommt mit einem
 leeren Array. Sobald `docs/harness/HARNESS-CHANGELOG.md` und
 `docs/harness/HARNESS-LEARNING-STATE.md` beide echten Inhalt haben, das
-Paar eintragen (Muster in `toolkompass`, `state/plan-v2-doku-gate-
-auslassung.md`).
+Paar eintragen. Das Muster steht als Kommentar direkt an der Stelle in
+`check-docs.mjs`.
 
 ## 6. Erste Selbstprüfung
 

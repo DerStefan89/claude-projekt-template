@@ -3,8 +3,8 @@ name: git-flow
 description: Fuehrt den Standard-Workflow fuer eine freigegebene, kleine Aenderung aus — Branch anlegen, gezielt stagen, Diff zur Freigabe zeigen, ehrlich committen, pushen, PR-Link/Status nennen. Nutzen nach jeder abgeschlossenen Iteration, wenn eine geprueft Aenderung committet und ein PR eroeffnet werden soll. Ersetzt NICHT die Freigabe des Menschen und merged niemals selbst.
 ---
 
-<!-- Vendored aus DerStefan89/claude-playbook, skills/git-flow/SKILL.md.
-     Aenderungen an der Prozedur gehoeren zuerst ins Playbook. -->
+<!-- Verfahren aus der Praxis. Wenn du dieses Template als eigene
+     Bibliothek pflegst: Aenderungen zuerst dort, dann hierher. -->
 
 # Git-Flow
 
@@ -22,9 +22,8 @@ description: Fuehrt den Standard-Workflow fuer eine freigegebene, kleine Aenderu
 5. `git diff --staged` vollstaendig zeigen, ausdruecklich um Freigabe bitten.
    Nicht committen ohne klares "ja". **Der Freigabe-Halt steht als LETZTER
    Satz des Prompts, nie zwischen zwei Arbeitsanweisungen** — sonst
-   autorisiert er versehentlich die ganze Kette (real vorgekommen, siehe
-   claude-playbook/ANHANG-A-PROMPT-STANDARDS.md, Anti-Pattern "der Halt in
-   der Mitte").
+   autorisiert er versehentlich die ganze Kette. Anti-Pattern "der Halt in
+   der Mitte", real vorgekommen und mit einem ungewollten Commit bezahlt.
 6. Nach Freigabe: committen mit ehrlicher, inhaltsbeschreibender Message.
 7. Pushen.
 8. PR-Status klaeren: `gh auth status` pruefen. Verfuegbar → `gh pr create`/

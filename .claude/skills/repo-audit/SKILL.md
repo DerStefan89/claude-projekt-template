@@ -3,8 +3,8 @@ name: repo-audit
 description: Fuehrt eine Sanierungs-Pruefung durch, gleicht Anweisungsdokumente (CLAUDE.md, ARCHITECTURE.md, README.md, .claude/agents/*.md) gegen die reale Repo-Struktur ab und findet tote Verweise, veraltete Behauptungen und ungeprueft Kopien. Nutzen nach mehreren abgeschlossenen Zyklen, vor einem neuen Zyklus, oder wenn der Nutzer sagt "Sanierungsdurchgang", "Repo-Audit", "Doku gegen Realitaet pruefen", "Drift-Check" oder "ist das noch aktuell". NICHT nutzen fuer einzelne Code-Reviews (dafuer code-reviewer/qa).
 ---
 
-<!-- Vendored aus DerStefan89/claude-playbook, skills/repo-audit/SKILL.md.
-     Aenderungen an der Prozedur gehoeren zuerst ins Playbook. -->
+<!-- Verfahren aus der Praxis. Wenn du dieses Template als eigene
+     Bibliothek pflegst: Aenderungen zuerst dort, dann hierher. -->
 
 # Repo-Audit
 

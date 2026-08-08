@@ -136,10 +136,10 @@ Prüfer mit Schreibrechten wird heimlich zum Autor.
 
 ## ⚠️ Bekannte Fallen
 
-Drei der folgenden vier Fallen sind umgebungs-, nicht stackbedingt und
-gelten wahrscheinlich unverändert für jedes auf Windows/OneDrive/Sandbox-
-Mounts entwickelte Projekt (Befund D6, `claude-playbook/
-INVENTAR-HARNESS-6.5.md`):
+Drei der folgenden vier Fallen sind umgebungs-, nicht stackbedingt: Sie
+gelten für jedes Projekt, das auf Windows, in einem cloudsynchronisierten
+Ordner (OneDrive, Dropbox) oder über einen Sandbox-Mount entwickelt wird.
+Alle drei wurden mehrfach real beobachtet.
 
 - Symptom: `git add` übernimmt manche Dateien stillschweigend nicht
   (OneDrive-Reparse-Points).

@@ -18,10 +18,10 @@ Name und wie es sich zeigte. Wenn keins auftrat: "keins".
 Pro Punkt: welche Datei (CLAUDE.md / ARCHITECTURE.md / state/gates.md /
 ein Skill), welcher Abschnitt, und der fertige Textbaustein zum Einfuegen.
 
-[FUELLUNG] Falls dieses Projekt an einer eigenen Playbook-Bibliothek
-lernt (wie toolkompass an claude-playbook): hier die Liste der eigenen
-Kapitel eintragen, damit die Auswahl nicht frei, sondern gebunden ist -
-eine Auswahlliste verhindert erfundene Kategorien.
+[FUELLUNG] Falls dieses Projekt an einer eigenen Methoden-Bibliothek
+lernt (einem separaten Repo mit den eigenen Verfahren): hier die Liste der
+eigenen Kapitel eintragen, damit die Auswahl nicht frei, sondern gebunden
+ist - eine Auswahlliste verhindert erfundene Kategorien.
 
 ## Offene Punkte fuer die naechste Session
 Nummerierte Liste, jeweils mit dem konkreten naechsten Handgriff.
