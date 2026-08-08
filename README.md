@@ -8,6 +8,26 @@ Herkunft: destilliert aus einem Produktivprojekt mit sechs abgeschlossenen
 Praxiszyklen, sortiert nach dem Prinzip **Skelett und Füllung** — übertragbar
 ist die Mechanik der Gates, nicht ihr Inhalt.
 
+## Loslegen
+
+Dieses Repo führt dich nicht von selbst. Die Führung kommt aus einem
+Claude-Projekt, das du dir einmal einrichtest — danach begleitet es dich
+Schritt für Schritt.
+
+1. **Claude-Projekt anlegen.** Den kompletten Inhalt von
+   `docs/onboarding/CLAUDE-PROJEKT-INSTRUCTIONS.md` als Custom Instructions
+   einsetzen.
+2. **Ersten Chat starten.** Den Prompt aus
+   `docs/onboarding/START-PROMPT.md` kopieren, die eckigen Klammern
+   ausfüllen, absenden.
+3. **Ab hier führt Claude.** Es gibt zwei Wege — das Harness erst verstehen,
+   oder direkt das eigene Projekt damit aufbauen. Claude erklärt beide und
+   empfiehlt einen.
+
+Du schreibst dabei keine Dateien von Hand. Claude liefert dir die Prompts,
+die du in Claude Code einsetzt — genau das ist die Fähigkeit, die du hier
+mitnimmst.
+
 ## Was hier drin ist (Skelett)
 
 - Vier-Ebenen-Regelhierarchie: Mensch → Modell-Evaluator → deterministische
@@ -42,7 +62,9 @@ ist die Mechanik der Gates, nicht ihr Inhalt.
 - Alles unter `docs/harness/` außer dem leeren Grundgerüst — der Inhalt
   entsteht mit dem ersten Zyklus dieses Projekts
 
-## Bootstrap eines neuen Projekts
+## Bootstrap im Detail
+
+Claude führt dich durch diese Schritte. Hier stehen sie zum Nachschlagen.
 
 1. Auf GitHub „Use this template" → „Create a new repository", dann klonen.
    Ohne GitHub: Ordner kopieren und `rm -rf .git && git init` — das Template
@@ -55,15 +77,24 @@ ist die Mechanik der Gates, nicht ihr Inhalt.
 5. Erstes Feature: Skill `spec-schreiben` → `advisor-pass` →
    `handoff-vertrag` → Reviewer. Alle drei liegen in `.claude/skills/`.
 
-## Wenn du neu bist
+## Nachschlagen
 
-`docs/guide/` erklärt das Harness von Grund auf — Architekturübersicht,
-Deep Dives zu jedem Bereich (was Hooks, Agents, MCPs, `specs/` bedeuten),
-den Arbeitsprozess, Token-Sparen und eine Schritt-für-Schritt-Anleitung
-zum eigenen Projekt. Start: `docs/guide/00-START-HIER.md`.
+`docs/guide/` erklärt das Harness von Grund auf: Architekturübersicht, Deep
+Dives zu jedem Bereich (was Hooks, Agents, MCPs, `specs/` bedeuten), der
+Arbeitsprozess, Token-Sparen. Du musst das nicht vorab lesen — Claude
+verweist dich auf die passende Stelle, wenn sie dran ist. Wer lieber selbst
+liest, beginnt bei `docs/guide/00-START-HIER.md`.
 
 ## Quellenregel
 
 Dieses Repo ist selbst ein Nachweis der Skelett-/Füllung-Trennung — wenn
 etwas hier drin stackgebunden wirkt, ist das ein Fund, kein Feature. Meld
 oder notier ihn, statt ihn mitzuschleppen.
+
+## Erste Fassung
+
+Dies ist die erste öffentliche Fassung. Das Harness selbst ist in sechs
+Praxiszyklen gewachsen, die Führungsschicht darüber ist neu und noch nicht
+von Anfang bis Ende durchlaufen worden. Wenn dir etwas fehlt, widersprüchlich
+ist oder nicht funktioniert: melden. Das ist zu diesem Zeitpunkt wertvoller
+als jede Politur.
