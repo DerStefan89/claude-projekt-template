@@ -3,8 +3,8 @@ name: spec-schreiben
 description: Schreibt eine Spec für ein Vorhaben — Problem, prüfbare V-Aussagen (aus denen später Tests werden), Nicht-Ziele als Pflichtsektion, Constraints, offene Fragen. Nutzen VOR Plan und Handoff-Vertrag bei jedem mittleren oder größeren Vorhaben, oder wenn der Nutzer sagt "Spec", "was soll das können", "User Story", "Anforderungen aufschreiben". NICHT nutzen für triviale Einzeländerungen und nicht als Ersatz für den Plan — die Spec sagt WAS, der Plan sagt WIE.
 ---
 
-<!-- Vendored aus DerStefan89/claude-playbook, skills/spec-schreiben/SKILL.md.
-     Änderungen gehören zuerst ins Playbook. -->
+<!-- Verfahren aus der Praxis. Wenn du dieses Template als eigene
+     Bibliothek pflegst: Änderungen zuerst dort, dann hierher. -->
 
 # Spec schreiben
 

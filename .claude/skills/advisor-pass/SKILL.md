@@ -3,10 +3,9 @@ name: advisor-pass
 description: Führt einen Advisor-Pass auf einen Plan durch, BEVOR gebaut wird — Plan v1 als Datei, frischer Kontext, Findings mit Evidenz-Marker und Belegstelle, vierstufiges Urteil, Plan v2 als eigene Datei. Nutzen vor jeder Umsetzung mit Nebenwirkungen (Auth, Geld, öffentliche Endpunkte, DB-Schreibzugriff, neues Gate, Schema-Änderung), oder wenn der Nutzer sagt "Advisor-Pass", "prüf meinen Plan", "ist das overengineered", "bevor ich baue". NICHT nutzen für fertigen Code — dafür Reviewer (code-reviewer/qa) — und nicht als Ersatz für Spec oder Handoff-Vertrag.
 ---
 
-<!-- Vendored aus DerStefan89/claude-playbook, skills/advisor-pass/SKILL.md.
-     Ursprung: sechs reale Durchläufe in DerStefan89/toolkompass, konserviert
-     nach der Beförderungsregel aus ANHANG-A §4. Änderungen gehören zuerst
-     ins Playbook. -->
+<!-- Verfahren, destilliert aus sechs realen Praxiszyklen eines
+     Produktivprojekts. Wenn du dieses Template als eigene Bibliothek
+     pflegst: Änderungen zuerst dort, dann hierher. -->
 
 # Advisor-Pass
 

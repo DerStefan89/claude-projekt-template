@@ -76,11 +76,10 @@ Bitte. Erst eine der vier Ebenen macht sie technisch:
    `.claude/settings.json`).
 4. **Permissions/Sandbox** — `.claude/settings.json`.
 
-Ein technischer Gegenbeweis für diese Reihenfolge: Textregeln (Ebene 1)
-biegen unter Zeitdruck — mehrfach real beobachtet in der Herkunfts-
-Codebasis dieses Templates (`claude-playbook/INVENTAR-HARNESS-6.5.md`,
-Befunde G9/G11). Deterministische Gates (Ebene 3) hielten in jedem
-beobachteten Fall.
+Erfahrungswert zu dieser Reihenfolge: Textregeln (Ebene 1) biegen unter
+Zeitdruck — mehrfach real beobachtet in der Codebasis, aus der dieses
+Template destilliert wurde. Deterministische Gates (Ebene 3) hielten in
+jedem beobachteten Fall.
 
 ## Wie mit dem Harness gearbeitet wird
 

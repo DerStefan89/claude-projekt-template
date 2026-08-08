@@ -7,12 +7,12 @@
  * Für Solidity oder andere Sprachen: andere Compiler-API, gleiches Prinzip.
  *
  * [FÜLLUNG] Die eigentlichen Regeln kommen aus echten Wiederholungen im
- * eigenen Code — Beförderungsregel aus ANHANG-A, sinngemäß auf Code statt
- * Prompts angewandt: taucht derselbe Fehler dreimal auf, wird er zur Regel.
- * Muster für eine echte Regel (aus toolkompass, dort entfernt bevor dieses
- * Template destilliert wurde): "jedes Objekt-Literal mit `take` ohne `skip`
- * im selben Literal ist ein Befund" — per ts.forEachChild über den AST jeder
- * .ts/.tsx-Datei.
+ * eigenen Code. Beförderungsregel: Taucht derselbe Fehler dreimal auf, wird
+ * er zur Regel — vorher nicht.
+ *
+ * Muster für eine echte Regel (Beispiel aus einem Datenbank-Projekt):
+ * "jedes Objekt-Literal mit `take` ohne `skip` im selben Literal ist ein
+ * Befund" — per ts.forEachChild über den AST jeder .ts/.tsx-Datei.
  *
  * Aufruf: node scripts/check-rules.mjs   (Teil von npm run check)
  * Exit 0 = sauber, Exit 1 = Befund gefunden

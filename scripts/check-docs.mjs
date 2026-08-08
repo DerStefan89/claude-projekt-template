@@ -4,9 +4,10 @@
  * Zweck: Prüft die Projektdokumentation auf Drift — Verweise, die ins Leere zeigen,
  * und Fakten, die an mehr als einer Stelle stehen.
  *
- * Herkunft: destilliert aus DerStefan89/toolkompass (Zyklus 2.5–6). Alle fünf
- * Prüfungen sind Mechanik (Skelett) — die einzige Stelle mit Stack-Bezug ist
- * die Versions-Namensliste in Prüfung 2, unten als Platzhalter markiert.
+ * Herkunft: destilliert aus einem Produktivprojekt über mehrere Praxiszyklen.
+ * Alle fünf Prüfungen sind Mechanik (Skelett) — die einzige Stelle mit
+ * Stack-Bezug ist die Versions-Namensliste in Prüfung 2, unten als
+ * Platzhalter markiert.
  *
  * Aufruf: node scripts/check-docs.mjs   (Teil von npm run check)
  * Exit 0 = sauber, Exit 1 = Befund gefunden

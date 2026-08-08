@@ -6,7 +6,7 @@ CLI, Smart Contract): diese Datei ignorieren, keinen design-guardian
 anlegen — ein Pruefer fuer ein Kriterium, das nicht existiert, prueft
 nichts und verwirrt nur (siehe SETUP.md Punkt 2).
 
-Ursprung: toolkompass/.claude/agents/design-guardian.md, Zyklus 1-6
+Ursprung: ein UI-Projekt mit sechs abgeschlossenen Praxiszyklen
 erprobt, dort geprueft gegen design-refs/*.png und app/globals.css.
 -->
 ---

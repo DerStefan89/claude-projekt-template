@@ -3,7 +3,8 @@ name: handoff-vertrag
 description: Schreibt einen Handoff-Vertrag für eine abgegrenzte Teilaufgabe, die ein frischer Kontext oder ein anderer Agent ausführen soll — Minimalform plus Evidenz-Marker, Zuschnittprüfung und Stop-Grenzen. Nutzen, bevor eine Aufgabe an eine neue Sitzung/einen Subagenten übergeben wird, oder wenn der Nutzer sagt "Task-Datei", "Handoff", "Auftrag schreiben", "gib mir den Prompt". NICHT nutzen für triviale Einzelbefehle und nicht als Ersatz für Spec oder Plan bei mittleren und großen Vorhaben.
 ---
 
-<!-- Vendored aus DerStefan89/claude-playbook, skills/handoff-vertrag/SKILL.md. -->
+<!-- Verfahren aus der Praxis. Wenn du dieses Template als eigene
+     Bibliothek pflegst: Aenderungen zuerst dort, dann hierher. -->
 
 # Handoff-Vertrag
 

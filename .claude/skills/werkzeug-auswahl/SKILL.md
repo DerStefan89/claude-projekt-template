@@ -3,7 +3,8 @@ name: werkzeug-auswahl
 description: Prueft, ob ein Skill, MCP oder Plugin in dieses Projekt gehoert — Bedarf feststellen, Herkunft pruefen, Risiko bewerten, Entscheidung nach state/tooling.md schreiben. Nutzen, wenn ein neues Werkzeug im Gespraech ist, beim Aufsetzen eines neuen Projekts, oder wenn der Nutzer sagt "brauche ich das", "welches Werkzeug", "soll ich das installieren". NICHT nutzen, um ein bereits installiertes Werkzeug zu bedienen, und nicht als Ersatz fuer einen Advisor-Pass bei Aufgaben mit Nebenwirkungen.
 ---
 
-<!-- Vendored aus DerStefan89/claude-playbook, skills/werkzeug-auswahl/SKILL.md. -->
+<!-- Verfahren aus der Praxis. Wenn du dieses Template als eigene
+     Bibliothek pflegst: Aenderungen zuerst dort, dann hierher. -->
 
 # Werkzeug-Auswahl
 
