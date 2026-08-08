@@ -54,6 +54,13 @@ npm run check     # das Tor vor jedem Commit — Kette siehe package.json
   Arbeitsverzeichnisse (Worktrees) dürfen parallel laufen.
 - Ein Schreiber pro Arbeitsverzeichnis. Keine zweite Sitzung im selben
   Ordner; parallele Arbeit nur in getrennten git-Worktrees.
+- Ein Zielverzeichnis pro Auftrag. Hat eine Sitzung Zugriff auf mehrere
+  Ordner, benennt jeder Auftrag sein Zielverzeichnis ausdrücklich und
+  beginnt mit einer Prüfung des Arbeitsverzeichnisses — passt es nicht,
+  wird abgebrochen statt gewechselt. Jeder Befehlsblock beginnt mit `cd`
+  auf den vollständigen Pfad, nie mit einem relativen Sprung. Das gilt für
+  Mensch und Modell gleichermaßen: Ein verfügbarer Zweitordner ist bequem
+  und genau deshalb gefährlich.
 - Iterationsende heißt: `git status` prüfen, Freigabe einholen, committen
   UND pushen (Skill `git-flow`). Eine Bremse ohne Gaspedal erzeugt Halden.
 - Keine Versionsnummern in Prosa. Versionen stehen ausschließlich in der
