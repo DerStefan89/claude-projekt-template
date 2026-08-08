@@ -23,7 +23,10 @@ jobs:
           cache: 'npm'
 
       - name: Abhängigkeiten installieren
-        run: npm ci
+        run: npm install
+        # npm ci erwartet package-lock.json; das Template hat keine Abhängigkeiten
+        # und wird vom Nutzer mit npm install aufgesetzt. Nach echten Dependencies
+        # können wir zu npm ci wechseln.
 
       - name: Lint, Typecheck, Doku-Gate, Regel-Gate, Tests
         run: npm run check
