@@ -1,0 +1,4 @@
+# Gitignorierte Dateien, die in jeden neuen git-Worktree mitkopiert werden
+# sollen (Secrets, lokale Config). Pro Projekt ergänzen.
+.env
+.env.local

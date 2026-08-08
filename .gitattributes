@@ -1,0 +1,8 @@
+# Alle Textdateien als LF behandeln — eine Grundzeile statt einer
+# Endungsliste. Eine Aufzählung (*.ts *.tsx *.css *.md *.json *.sql) veraltet
+# mit jeder neuen Dateiendung im Projekt; belegt am 07.08.2026 (Befund G8,
+# claude-projekt-template/../claude-playbook/INVENTAR-HARNESS-6.5.md):
+# .js, .mjs, .mts, .prisma und endungslose Dateien (.gitignore,
+# .worktreeinclude) blieben ungeschützt und erschienen aus einer Linux-Sicht
+# fälschlich als komplett geändert.
+* text=auto eol=lf working-tree-encoding=UTF-8

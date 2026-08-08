@@ -1,0 +1,27 @@
+# Abhängigkeiten und Build-Artefakte — pro Stack anpassen/ergänzen
+node_modules/
+dist/
+build/
+out/
+.next/
+coverage/
+*.tsbuildinfo
+*.log
+
+# Umgebungsvariablen — nie committen
+.env
+.env.local
+.env.*.local
+
+# Persönliche Freigaben — trägt Freigaben, die nie reviewt werden.
+# MUSS ignoriert bleiben (siehe SETUP.md Punkt 7 / Befund G10).
+.claude/settings.local.json
+
+# Aufgaben-Gedächtnis — bewusst nicht committet, nur die Vorlage bleibt
+# getrackt (state/zwischenstand/VORLAGE.md via Ausnahme unten).
+state/zwischenstand/*.md
+!state/zwischenstand/VORLAGE.md
+
+# Editor-/OS-Artefakte
+.DS_Store
+Thumbs.db

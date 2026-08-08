@@ -1,0 +1,16 @@
+{
+  "name": "projektname",
+  "version": "0.1.0",
+  "private": true,
+  "engines": {
+    "node": "24.x"
+  },
+  "scripts": {
+    "dev": "echo '[FÜLLUNG] Dev-Server-Befehl'",
+    "build": "echo '[FÜLLUNG] Build-Befehl'",
+    "lint": "echo '[FÜLLUNG] Linter, z.B. eslint'",
+    "typecheck": "echo '[FÜLLUNG] z.B. tsc --noEmit'",
+    "test": "echo '[FÜLLUNG] Testrunner, via werkzeug-auswahl-Skill entscheiden'",
+    "check": "npm run lint && npm run typecheck && node scripts/check-docs.mjs && node scripts/check-rules.mjs && npm run test"
+  }
+}
