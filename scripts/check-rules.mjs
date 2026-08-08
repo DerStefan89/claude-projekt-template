@@ -18,7 +18,9 @@
  * Exit 0 = sauber, Exit 1 = Befund gefunden
  */
 
-import ts from 'typescript'
+// Kein statischer Import von 'typescript' hier — das Paket wird erst mit
+// der ersten echten Regel als devDependency gebraucht. Der leere Harness
+// muss ohne diese Abhängigkeit laufen, siehe dynamischer Import unten.
 import { readdirSync, readFileSync } from 'node:fs'
 import { join } from 'node:path'
 
@@ -65,6 +67,7 @@ function sammleTsDateien(dir, sammlung = []) {
 const regeln = []
 
 if (regeln.length > 0) {
+  const { default: ts } = await import('typescript')
   const dateien = sammleTsDateien('.')
   for (const dateiPfad of dateien) {
     const inhalt = readFileSync(dateiPfad, 'utf-8')
