@@ -21,7 +21,18 @@ auf der Platte (`state/tasks/<slug>.md`), nicht nur im Fenster — sonst
 2. **Ist-Zustand lesen, nicht annehmen.** Vor dem Schreiben die betroffenen
    Dateien tatsächlich lesen. Ist der Zielzustand schon erreicht, schreibe
    keinen Vertrag, sondern melde es als No-Op.
-3. **Die sieben Sektionen füllen:**
+3. **Der Vertrag beginnt mit SCHRITT 0.** Vor der ersten Sektion steht
+   wörtlich:
+
+   ```
+   SCHRITT 0: Arbeitsverzeichnis ausgeben und gegen das im Auftrag genannte
+   Zielverzeichnis prüfen. Bei Abweichung: abbrechen, melden, nichts ändern.
+   ```
+
+   Der Halt gehört an den Anfang, nicht ans Ende — ein Auftrag, der im
+   falschen Ordner ausgeführt wurde, ist auch dann falsch, wenn er
+   inhaltlich stimmt.
+4. **Die sieben Sektionen füllen:**
    - `## TASK: <slug>` — der Dateiname ohne Endung.
    - `GOAL:` — eine prüfbare Zielaussage.
    - `CONTEXT:` — Pointer auf Dateien, Commits, Zeilen. Evidenz-Marker
@@ -37,13 +48,13 @@ auf der Platte (`state/tasks/<slug>.md`), nicht nur im Fenster — sonst
      Sektion ist keine Vertagung, sondern ein Verschwinden — real
      vorgekommen: ein Nachtrag, der nie geschrieben wurde, weil er nur als
      Absicht in einer NICHT-Liste stand.
-4. **Evidenz-Marker im CONTEXT setzen.**
-5. **Erwartetes Ergebnis mitgeben.**
-6. **Stop-Grenzen statt Verbotskatalog.**
-7. **Freigabe- und Staging-Regeln nennen, wenn Git im Spiel ist.** Kein
+5. **Evidenz-Marker im CONTEXT setzen.**
+6. **Erwartetes Ergebnis mitgeben.**
+7. **Stop-Grenzen statt Verbotskatalog.**
+8. **Freigabe- und Staging-Regeln nennen, wenn Git im Spiel ist.** Kein
    Commit ohne Freigabe. Beim Stagen ausschließlich explizite Pfade, nie
    `-A` oder `.`. Für den Commit selbst den `git-flow`-Skill nutzen.
-8. **Knapp halten.**
+9. **Knapp halten.**
 
 ## Grenzen
 
