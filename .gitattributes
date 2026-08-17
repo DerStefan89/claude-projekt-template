@@ -5,4 +5,9 @@
 # .js, .mjs, .mts, .prisma und endungslose Dateien (.gitignore,
 # .worktreeinclude) blieben ungeschützt und erschienen aus einer Linux-Sicht
 # fälschlich als komplett geändert.
-* text=auto eol=lf working-tree-encoding=UTF-8
+#
+# working-tree-encoding=UTF-8 wurde entfernt: getestet wirkungslos (Befund
+# V1.5, 17.08.2026). Ein Wiedereinbau braucht einen neuen Test in der
+# Umgebung, in der ein Effekt vermutet wird — sonst gilt er als
+# Neuentdeckung, obwohl er das nicht ist.
+* text=auto eol=lf

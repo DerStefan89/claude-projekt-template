@@ -20,4 +20,5 @@ derselbe Fakt an drei Stellen im Quell-Projekt dieses Templates).
 | Strukturänderungen am Harness | `docs/harness/HARNESS-CHANGELOG.md` | |
 | Begriffe mit projektspezifischer Bedeutung | `docs/harness/HARNESS-GLOSSARY.md` | |
 | Zwischenstand einer unterbrochenen Aufgabe | `state/zwischenstand/<branch>.md` | nicht committen außer VORLAGE.md |
+| Spec: das WAS eines Vorhabens | `specs/` | Pläne und Verträge (das WIE) — die gehören nach `state/tasks/*.md` |
 | [FÜLLUNG] | | |

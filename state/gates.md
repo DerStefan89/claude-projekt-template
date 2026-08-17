@@ -13,6 +13,7 @@ ungeprüftes Versprechen.
 | CI | `.github/workflows/ci.yml` | `npm run check` auf frischer Maschine + Secret-Scan | [FÜLLUNG] | [FÜLLUNG] |
 | Branch Protection | GitHub-Repo-Einstellung, kein Datei-Artefakt (siehe SETUP.md Punkt 1) | Required Status Check `check` vor Merge auf `main`, ohne Admin-Bypass | [FÜLLUNG] | [FÜLLUNG] |
 | `guard-settings.js`-Hook | `.claude/hooks/guard-settings.js` | Edit/Write auf geteilte `.claude/settings.json` | [FÜLLUNG] | [FÜLLUNG] |
+| Zwischenstand-Loop | `.claude/hooks/zwischenstand-pruefen.js` (PreCompact), `.claude/hooks/zwischenstand-laden.js` (SessionStart) | Frische des Zwischenstands vor manueller Compaction; Laden des Zwischenstands nach Sitzungsstart/`/clear` | Zwischenstandsdatei mit `Zuletzt aktualisiert:` älter als 60 Minuten (`2026-08-17T08:00` bei Lauf um `11:14`) → `decision: block` bei `trigger: manual` | Zwischenstandsdatei mit frischem Zeitstempel (`2026-08-17T11:15`) → kein Block bei `trigger: manual`; SessionStart mit `source: clear` liefert den Dateiinhalt als `additionalContext` |
 
 ## Kalibrierungs-Log
 
@@ -28,3 +29,17 @@ nicht die Tabelle oben stillschweigend überschreiben.
   `Thumbs.db`), keiner davon ein plausibles Pflichtdokument — Risiko
   latent. Erneut bewerten, sobald .gitignore um weitere generische
   Dateinamen ergänzt wird.
+
+- 2026-08-17, Zwischenstand-Loop: Rot- und Grün-Fall von Hand durchgespielt
+  (Aufruf der Hooks direkt über stdin, kein echter Compaction-/Clear-Lauf).
+  Rot: `state/zwischenstand/harness-fix-1-hooks-und-zwischenstand.md` mit
+  `Zuletzt aktualisiert: 2026-08-17T08:00`, Lauf um `11:14` Uhr,
+  `{"trigger":"manual"}` → `zwischenstand-pruefen.js` liefert
+  `{"decision":"block", ...}`. Grün: dieselbe Datei mit
+  `Zuletzt aktualisiert: 2026-08-17T11:15` → derselbe Aufruf liefert keine
+  Ausgabe (kein Block), Exit 0. Zusätzlich `zwischenstand-laden.js` mit
+  `{"source":"clear"}` aufgerufen: Ausgabe enthält den Dateiinhalt als
+  `additionalContext` — bestätigt, dass der SessionStart-Matcher (V1.1,
+  `clear` ergänzt) den Zwischenstand nach `/clear` lädt. Testdatei war
+  nicht committet (per `.gitignore`, Ausnahme nur für `VORLAGE.md`) und
+  wurde nach dem Test gelöscht.

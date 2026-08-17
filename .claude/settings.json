@@ -30,7 +30,7 @@
     ],
     "SessionStart": [
       {
-        "matcher": "startup|resume|compact|fork",
+        "matcher": "startup|resume|compact|clear|fork",
         "hooks": [
           { "type": "command", "command": "node .claude/hooks/zwischenstand-laden.js" }
         ]

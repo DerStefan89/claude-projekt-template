@@ -13,4 +13,4 @@ Getroffene Entscheidungen mit Begründung, damit sie nicht in einer neuen Sitzun
 Ungeklärte Fragen und Blockaden, die eine neue Sitzung zuerst auflösen muss.
 
 ---
-Diese Datei soll 10.000 Zeichen nicht überschreiten — der Ladeweg (SessionStart-Hook, `additionalContext`) ist dort gedeckelt.
+Diese Datei soll 9.500 Zeichen nicht überschreiten — der Ladeweg (SessionStart-Hook, `additionalContext`) ist dort gedeckelt.
