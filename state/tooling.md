@@ -5,7 +5,7 @@
 
 | Werkzeug | Zweck | Eingeführt (Datum) | Über Skill `werkzeug-auswahl` geprüft? |
 |---|---|---|---|
-| [FÜLLUNG] | | | |
+| gitleaks | Secret-Scan in CI | 2026-08-08 (Commit `e23a9bb`, initiales Template-Gerüst) | [Annahme] vermutlich nein — vor diesem Programm eingeführt, keine Prüfspur gefunden |
 
 ## Bewusst nicht installiert
 

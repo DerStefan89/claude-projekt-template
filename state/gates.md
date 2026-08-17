@@ -8,7 +8,7 @@ ungeprüftes Versprechen.
 
 | Gate | Datei | Prüft | Rot-Fall (bekannt) | Grün-Fall (bekannt) |
 |---|---|---|---|---|
-| Doku-Gate | `scripts/check-docs.mjs` | tote Verweise, Versionsnummern außerhalb package.json, Frische-Widerspruch in Einzeldokumenten, Frische-Widerspruch zwischen Dokumentenpaaren, Hedging-Wörter ohne Evidenz-Marker in state/Report-Dateien | Testzeile `React v19, siehe \`keine/existierende/datei.md\`` (temporär in CLAUDE.md eingefügt) → 2 Befunde: toter Verweis + Versionsnummer | CLAUDE.md:79 `npm run check` → Exit 0 löst keinen Versionsnummer-Befund aus; README.md:34 verweist auf `settings.local.json`, das per .gitignore absichtlich fehlt → kein Befund |
+| Doku-Gate | `scripts/check-docs.mjs` | tote Verweise, Versionsnummern außerhalb package.json, Frische-Widerspruch in Einzeldokumenten, Frische-Widerspruch zwischen Dokumentenpaaren, Hedging-Wörter ohne Evidenz-Marker in state/Report-Dateien | Testzeile `React v19, siehe \`keine/existierende/datei.md\`` (temporär in CLAUDE.md eingefügt) → 2 Befunde: toter Verweis + Versionsnummer; echter Fund (kein Testfall) nach Erweiterung von Prüfung 1 auf `.claude/skills/*/SKILL.md` und `.claude/commands/*.md`: `.claude/skills/spec-schreiben/SKILL.md:88: Verweis auf \`state/triage.md\` — Datei existiert nicht` | CLAUDE.md:79 `npm run check` → Exit 0 löst keinen Versionsnummer-Befund aus; README.md:34 verweist auf `settings.local.json`, das per .gitignore absichtlich fehlt → kein Befund; nach Behebung von `spec-schreiben/SKILL.md:88` (Verweis auf `state/tasks/` umgebogen) → `npm run check` Exit 0, Doku-Check „Keine Befunde" |
 | Regel-Gate | `scripts/check-rules.mjs` | projektspezifische AST-Regeln | (leer bis zur ersten Regel) | (leer bis zur ersten Regel) |
 | CI | `.github/workflows/ci.yml` | `npm run check` auf frischer Maschine + Secret-Scan | [FÜLLUNG] | [FÜLLUNG] |
 | Branch Protection | GitHub-Repo-Einstellung, kein Datei-Artefakt (siehe SETUP.md Punkt 1) | Required Status Check `check` vor Merge auf `main`, ohne Admin-Bypass | [FÜLLUNG] | [FÜLLUNG] |
@@ -68,3 +68,51 @@ nicht die Tabelle oben stillschweigend überschreiben.
   der abgewiesene Commit keinen Hash hinterlässt), alle übrigen
   Zeitstempel sind belegt (Commit-Zeitstempel bzw. Tool-Aufrufzeit dieser
   Konversation).
+
+- 2026-08-17, Doku-Gate, Prüfung 1 erweitert um `.claude/skills/*/SKILL.md`
+  und `.claude/commands/*.md`: Rot- und Grün-Fall sind kein konstruierter
+  Testfall, sondern der reale Zustand des Repos zum Zeitpunkt der
+  Erweiterung. Rot (vor der Behebung): `npm run check` → Exit 1, Doku-Check
+  meldet genau einen Befund — `.claude/skills/spec-schreiben/SKILL.md:88:
+  Verweis auf \`state/triage.md\` — Datei existiert nicht`. Grün (nach der
+  Behebung): Zeile 88 in `spec-schreiben/SKILL.md` auf `state/tasks/`
+  umgebogen (Entscheidung Punkt E, `state/plan-v2-phase1-vertraege.md`) →
+  `npm run check` → Exit 0, Doku-Check „Keine Befunde".
+
+- 2026-08-17, Doku-Gate, Prüfung 2 (Versionsnummern-Muster) probeweise
+  gegen `.claude/skills/*/SKILL.md` und `.claude/commands/*.md` laufen
+  lassen — per Wegwerf-Skript (`test-pruefung2.mjs`, nicht committet,
+  `check-docs.mjs` selbst unverändert). Ergebnis: 8 Dateien geprüft, 9
+  Treffer — deckt sich in der Gesamtzahl mit der Erwartung aus
+  `state/plan-v2-phase1-vertraege.md` (Abschnitt „Warum nur Prüfung 1").
+  Zusammensetzung weicht in einem Punkt von der dortigen Vorhersage ab, was
+  hier ehrlich statt geglättet festgehalten wird: 7 Treffer enthalten
+  wörtlich „Plan v1" oder „Plan v2" (`advisor-pass/SKILL.md:3` ×2,
+  `:31`, `:70`, `:107`, `spec-schreiben/SKILL.md:71` ×2) — das deckt sich
+  mit der Vorhersage. Der 8. Treffer ist der erwartete Versionspin der
+  vendorten `ponytail`-Datei (`ponytail/SKILL.md:20: "v4.8.4"`). Der 9.
+  Treffer ist aber kein zweiter ponytail-Treffer, sondern ein eigenständiger
+  Fehlalarm: `advisor-pass/SKILL.md:71: "Wer v1"` — Prüfung 2s zweites
+  Muster (großgeschriebenes Wort + Versionszahl) greift hier am Satzanfang
+  „Wer v1 überschreibt, …". Ergebnis stützt die Entscheidung aus Punkt D/
+  „Warum nur Prüfung 1" sogar stärker als vorhergesagt: Prüfung 2 träfe auf
+  Skills nicht nur den Kernbegriff „Plan v1/v2" und den absichtlichen
+  ponytail-Pin, sondern zusätzlich mindestens einen strukturellen
+  Fehlalarm aus normaler deutscher Satzstellung — ein weiterer Beleg dafür,
+  dass Prüfung 2 dort strukturell unbrauchbar ist, nicht nur an einem
+  Einzelfall hängt.
+
+- 2026-08-17, CI/gitleaks: Vertrag `harness-fix-3-dokugate-und-ci` sollte
+  vor dem Entfernen von `--no-git` (und Ergänzen von `fetch-depth: 0`) die
+  Stop-Grenze aus F2 (`state/plan-v2-phase1-vertraege.md`) auslösen — ein
+  lokaler gitleaks-Lauf über die volle Historie (`--source .`, ohne
+  `--no-git`). Weder `docker` noch ein eigenständiges `gitleaks`-Binary
+  waren auf der Baumaschine verfügbar (geprüft über Bash-PATH und
+  Windows-PATH, `docker --version` → command not found, `where.exe
+  gitleaks` → keine Treffer). Die Stop-Grenze wurde deshalb **nicht**
+  ausgeführt — nicht stillschweigend übersprungen. `ci.yml` behält
+  `--no-git` und den impliziten Shallow-Checkout (kein `fetch-depth`); nur
+  das Image-Pinning (`v8.30.1`) und `permissions: contents: read` wurden
+  umgesetzt. Offener Folgeschritt vor einer künftigen Entfernung von
+  `--no-git`: den vollen Historien-Scan auf einer Maschine mit Docker oder
+  gitleaks-Binary nachholen.

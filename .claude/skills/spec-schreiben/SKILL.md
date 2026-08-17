@@ -85,7 +85,7 @@ der Spec nachgezogen und begründet — nicht im Plan versteckt.
 | Daily / Standup | State-File-Review |
 | Review / Demo | Reviewer-PASS + menschliche Stichprobe am Artefakt |
 | Retro | Lernjournal + neuer Eval-Fall pro Fehlschlag |
-| Backlog | `specs/` + `state/triage.md` |
+| Backlog | `specs/` + `state/tasks/` |
 
 Der Satz für das Kundengespräch: Ihr Scrum-Wissen gilt weiter, nur die
 Ausführenden haben gewechselt — und dazu kommt eine Sektion, die Scrum nie
