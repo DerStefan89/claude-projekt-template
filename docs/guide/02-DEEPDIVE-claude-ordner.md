@@ -182,6 +182,13 @@ Vorbeigehen erteilt wurde, niemand reviewt. Wenn du wirklich die
 Team-Policy ändern willst: Hook-Eintrag kurz entfernen, Änderung machen,
 Grund im Commit nennen, Hook wieder einsetzen. Der Umweg ist der Zweck.
 
+**Grenze von `guard-settings.js`:** Der Hook matcht nur `Edit` und `Write`.
+Ein Schreibvorgang per Bash (z. B. `echo ... > .claude/settings.json`) läuft
+an ihm vorbei. Diese Lücke ist bekannt und bleibt in diesem Stand offen —
+sie wird zusammen mit dem Commit-Guard geschlossen, weil beide denselben
+`Bash`-Matcher brauchen. Bis dahin gilt unverändert: `.claude/settings.json`
+ist Team-Policy und wird vom Menschen geändert, nicht vom Modell.
+
 **Sicherheitshinweis aus der Praxis:** In der Quell-Codebasis fanden sich
 in `settings.local.json` Freigaben wie `Bash(git commit *)` und
 `Bash(git push *)` — vermutlich einmal im Eifer erteilt und nie
