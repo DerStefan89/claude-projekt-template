@@ -50,6 +50,14 @@ andere Sprachen (Solidity/Foundry, Python, …) den Workflow neu schreiben —
 die MECHANIK „ein Job, ein `check`-Befehl, Required Status Check" bleibt,
 die Schritte darin nicht.
 
+Sobald echte Werkzeuge eingerichtet sind: `.github/workflows/ci.yml` von
+`npm run check:template` auf `npm run check` umstellen (oder beide Ketten
+getrennt laufen lassen, falls das Projekt Harness-Selbstprüfung und
+Projekt-Prüfkette getrennt beobachten will). Danach bei Bedarf einen
+PostToolUse-Lint-Hook manuell in `.claude/settings.json` ergänzen — der
+wurde entfernt, weil er ohne echten Linter nach jeder Dateiänderung
+scheitert (siehe `state/tasks/harness-fix-4-pruefkette-und-vertragspruefung.md`).
+
 ## 4. `check-rules.mjs` befüllen
 
 Kommt leer mit dem Template — ein AST-Harness ohne Regeln. Die ersten

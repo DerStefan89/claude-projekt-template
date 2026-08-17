@@ -43,18 +43,20 @@ auf der Platte (`state/tasks/<slug>.md`), nicht nur im Fenster — sonst
    - `BUDGET:` — erwartete Durchgänge oder Zeit.
    - `OUTPUT:` — Artefakt, Pfad, Format, Belege.
    - `ESCALATE:` — wann angehalten und berichtet wird statt weiterzumachen.
-   - `FOLGT:` — wird in der NICHT-Liste Arbeit vertagt, steht hier sofort
-     der benannte Folgeauftrag (Datei/Slug). "Falls nötig" ohne diese
-     Sektion ist keine Vertagung, sondern ein Verschwinden — real
-     vorgekommen: ein Nachtrag, der nie geschrieben wurde, weil er nur als
-     Absicht in einer NICHT-Liste stand.
-5. **Evidenz-Marker im CONTEXT setzen.**
-6. **Erwartetes Ergebnis mitgeben.**
-7. **Stop-Grenzen statt Verbotskatalog.**
-8. **Freigabe- und Staging-Regeln nennen, wenn Git im Spiel ist.** Kein
+5. **`FOLGT:` ist ein eigener, bedingter achter Punkt, kein Teil der
+   sieben Sektionen.** Wird in der NICHT-Liste Arbeit vertagt, steht direkt
+   danach der benannte Folgeauftrag (Datei/Slug). "Falls nötig" ohne diese
+   Sektion ist keine Vertagung, sondern ein Verschwinden — real
+   vorgekommen: ein Nachtrag, der nie geschrieben wurde, weil er nur als
+   Absicht in einer NICHT-Liste stand. Wird keine Arbeit vertagt, entfällt
+   der Punkt ganz.
+6. **Evidenz-Marker im CONTEXT setzen.**
+7. **Erwartetes Ergebnis mitgeben.**
+8. **Stop-Grenzen statt Verbotskatalog.**
+9. **Freigabe- und Staging-Regeln nennen, wenn Git im Spiel ist.** Kein
    Commit ohne Freigabe. Beim Stagen ausschließlich explizite Pfade, nie
    `-A` oder `.`. Für den Commit selbst den `git-flow`-Skill nutzen.
-9. **Knapp halten.**
+10. **Knapp halten.**
 
 ## Grenzen
 

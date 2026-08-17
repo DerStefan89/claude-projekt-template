@@ -8,9 +8,10 @@
   "scripts": {
     "dev": "echo '[FÜLLUNG] Dev-Server-Befehl'",
     "build": "echo '[FÜLLUNG] Build-Befehl'",
-    "lint": "echo '[FÜLLUNG] Linter, z.B. eslint'",
-    "typecheck": "echo '[FÜLLUNG] z.B. tsc --noEmit'",
-    "test": "echo '[FÜLLUNG] Testrunner, via werkzeug-auswahl-Skill entscheiden'",
-    "check": "npm run lint && npm run typecheck && node scripts/check-docs.mjs && node scripts/check-rules.mjs && npm run test"
+    "lint": "node -e \"console.error('lint: kein Linter ausgewählt — siehe SETUP.md Punkt 3 (Skill werkzeug-auswahl)'); process.exit(1)\"",
+    "typecheck": "node -e \"console.error('typecheck: kein Typechecker ausgewählt — siehe SETUP.md Punkt 3 (Skill werkzeug-auswahl)'); process.exit(1)\"",
+    "test": "node -e \"console.error('test: kein Testrunner ausgewählt — siehe SETUP.md Punkt 3 (Skill werkzeug-auswahl)'); process.exit(1)\"",
+    "check": "npm run lint && npm run typecheck && node scripts/check-docs.mjs && node scripts/check-rules.mjs && node scripts/check-contract.mjs && npm run test",
+    "check:template": "node scripts/check-docs.mjs && node scripts/check-rules.mjs && node scripts/check-contract.mjs"
   }
 }

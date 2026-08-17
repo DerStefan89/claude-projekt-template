@@ -10,6 +10,7 @@ ungeprüftes Versprechen.
 |---|---|---|---|---|
 | Doku-Gate | `scripts/check-docs.mjs` | tote Verweise, Versionsnummern außerhalb package.json, Frische-Widerspruch in Einzeldokumenten, Frische-Widerspruch zwischen Dokumentenpaaren, Hedging-Wörter ohne Evidenz-Marker in state/Report-Dateien | Testzeile `React v19, siehe \`keine/existierende/datei.md\`` (temporär in CLAUDE.md eingefügt) → 2 Befunde: toter Verweis + Versionsnummer; echter Fund (kein Testfall) nach Erweiterung von Prüfung 1 auf `.claude/skills/*/SKILL.md` und `.claude/commands/*.md`: `.claude/skills/spec-schreiben/SKILL.md:88: Verweis auf \`state/triage.md\` — Datei existiert nicht` | CLAUDE.md:79 `npm run check` → Exit 0 löst keinen Versionsnummer-Befund aus; README.md:34 verweist auf `settings.local.json`, das per .gitignore absichtlich fehlt → kein Befund; nach Behebung von `spec-schreiben/SKILL.md:88` (Verweis auf `state/tasks/` umgebogen) → `npm run check` Exit 0, Doku-Check „Keine Befunde" |
 | Regel-Gate | `scripts/check-rules.mjs` | projektspezifische AST-Regeln | (leer bis zur ersten Regel) | (leer bis zur ersten Regel) |
+| Vertrags-Gate | `scripts/check-contract.mjs` | Handoff-Verträge in `state/tasks/` auf SCHRITT 0 (Präambel) und die acht Marker der sieben Sektionen (`## TASK:`, `GOAL:`, `CONTEXT:`, `SCOPE:`, `NICHT:`, `BUDGET:`, `OUTPUT:`, `ESCALATE:`) | Testdatei `state/tasks/_test-verstuemmelt.md` ohne `SCOPE:`/`NICHT:` (temporär, nicht committet) → 2 Befunde: „Marker \"SCOPE:\" fehlt", „Marker \"NICHT:\" fehlt", Exit 1 | Lauf gegen alle 5 echten Dateien in `state/tasks/` (`harness-fix-1…` bis `harness-fix-4…` plus `phase0-artefakte-committen.md`) → „5 Vertrag/Verträge geprüft, keine Befunde.", Exit 0 |
 | CI | `.github/workflows/ci.yml` | `npm run check` auf frischer Maschine + Secret-Scan | [FÜLLUNG] | [FÜLLUNG] |
 | Branch Protection | GitHub-Repo-Einstellung, kein Datei-Artefakt (siehe SETUP.md Punkt 1) | Required Status Check `check` vor Merge auf `main`, ohne Admin-Bypass | [FÜLLUNG] | [FÜLLUNG] |
 | `guard-settings.js`-Hook | `.claude/hooks/guard-settings.js` | Edit/Write auf geteilte `.claude/settings.json` | [FÜLLUNG] | [FÜLLUNG] |
@@ -116,3 +117,35 @@ nicht die Tabelle oben stillschweigend überschreiben.
   umgesetzt. Offener Folgeschritt vor einer künftigen Entfernung von
   `--no-git`: den vollen Historien-Scan auf einer Maschine mit Docker oder
   gitleaks-Binary nachholen.
+
+- 2026-08-17, Vertrags-Gate (`scripts/check-contract.mjs`, Vertrag
+  `harness-fix-4-pruefkette-und-vertragspruefung`): Rot-Fall über eine
+  absichtlich verstümmelte, nicht committete Testdatei
+  `state/tasks/_test-verstuemmelt.md` (SCHRITT 0 und alle Marker außer
+  `SCOPE:`/`NICHT:` vorhanden) → `node scripts/check-contract.mjs` meldet
+  genau 2 Befunde („Marker \"SCOPE:\" fehlt", „Marker \"NICHT:\" fehlt"),
+  Exit 1. Testdatei direkt danach wieder entfernt, taucht in keinem
+  `git status` dieser Sitzung als gestaged auf. Grün-Fall: derselbe Lauf
+  gegen die zu diesem Zeitpunkt fünf echten Dateien in `state/tasks/`
+  (`harness-fix-1-hooks-und-zwischenstand.md`,
+  `harness-fix-2-commit-guard.md`, `harness-fix-3-dokugate-und-ci.md` —
+  Nachtrag aus diesem Vertrag —, `harness-fix-4-pruefkette-und-
+  vertragspruefung.md` — dieser Vertrag selbst — sowie die themenfremde
+  `phase0-artefakte-committen.md`, die zufällig ebenfalls dem
+  Vertragsformat entspricht) → „5 Vertrag/Verträge geprüft, keine
+  Befunde.", Exit 0. Beide Fehlerpfade (fehlendes `state/tasks/`, leeres
+  `state/tasks/`) sind in der Mechanik behandelt, aber am realen Repo
+  nicht auslösbar gewesen, da `state/tasks/` bereits nicht-leer existiert
+  — Codepfad durch Lesen bestätigt (`scripts/check-contract.mjs`, oberer
+  Teil), nicht durch einen realen Lauf.
+
+- 2026-08-17, `npm run check` vs. `npm run check:template`: Vor der
+  Umstellung (Ausgangsstand) `npm run check` → Exit 0 (alle Skripte
+  Platzhalter). Nach Umstellung von `lint`/`typecheck`/`test` auf
+  `stderr`-Meldung + `exit 1`: `npm run check:template`
+  (`check-docs.mjs && check-rules.mjs && check-contract.mjs`) → Exit 0.
+  `npm run check` (volle Kette inklusive `lint`) → bricht bereits bei
+  `lint` mit Exit 1 und der Meldung „lint: kein Linter ausgewählt — siehe
+  SETUP.md Punkt 3 (Skill werkzeug-auswahl)" ab; `typecheck` und `test`
+  einzeln aufgerufen liefern die analoge Meldung mit ihrem jeweiligen
+  Namen, ebenfalls Exit 1.
