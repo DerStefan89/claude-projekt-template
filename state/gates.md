@@ -13,6 +13,7 @@ ungeprüftes Versprechen.
 | CI | `.github/workflows/ci.yml` | `npm run check` auf frischer Maschine + Secret-Scan | [FÜLLUNG] | [FÜLLUNG] |
 | Branch Protection | GitHub-Repo-Einstellung, kein Datei-Artefakt (siehe SETUP.md Punkt 1) | Required Status Check `check` vor Merge auf `main`, ohne Admin-Bypass | [FÜLLUNG] | [FÜLLUNG] |
 | `guard-settings.js`-Hook | `.claude/hooks/guard-settings.js` | Edit/Write auf geteilte `.claude/settings.json` | [FÜLLUNG] | [FÜLLUNG] |
+| `commit-guard.js`-Hook | `.claude/hooks/commit-guard.js` | `git commit`/`git push` ohne frische Freigabe-Datei; Bash-Zugriff auf `.claude/settings.json`; Bash-Zugriff auf `state/freigabe-commit.md` | `git commit --allow-empty -m test` auf `test/commit-guard-calibration` ohne vorhandene Freigabe-Datei, ca. 2026-08-17T11:40 → abgewiesen ("git commit/push ohne Freigabe-Datei … verweigert"); derselbe Befehl erneut um 2026-08-17T11:54:54+02:00, unmittelbar nach Verbrauch der vorherigen Freigabe → wieder abgewiesen, gleiche Meldung | `git commit --allow-empty -m test` mit frischer, vom Menschen angelegter Freigabe-Datei (`Freigegeben: <ISO-Zeitstempel>`) → Commit `129cd01` um 2026-08-17T11:54:13+02:00 durchgegangen; `git status` direkt danach zeigt `state/freigabe-commit.md` nicht mehr — Einmal-Verbrauch bestätigt |
 | Zwischenstand-Loop | `.claude/hooks/zwischenstand-pruefen.js` (PreCompact), `.claude/hooks/zwischenstand-laden.js` (SessionStart) | Frische des Zwischenstands vor manueller Compaction; Laden des Zwischenstands nach Sitzungsstart/`/clear` | Zwischenstandsdatei mit `Zuletzt aktualisiert:` älter als 60 Minuten (`2026-08-17T08:00` bei Lauf um `11:14`) → `decision: block` bei `trigger: manual` | Zwischenstandsdatei mit frischem Zeitstempel (`2026-08-17T11:15`) → kein Block bei `trigger: manual`; SessionStart mit `source: clear` liefert den Dateiinhalt als `additionalContext` |
 
 ## Kalibrierungs-Log
@@ -43,3 +44,27 @@ nicht die Tabelle oben stillschweigend überschreiben.
   `clear` ergänzt) den Zwischenstand nach `/clear` lädt. Testdatei war
   nicht committet (per `.gitignore`, Ausnahme nur für `VORLAGE.md`) und
   wurde nach dem Test gelöscht.
+
+- 2026-08-17, `commit-guard.js`: Rot- und Grün-Fall auf echtem
+  Wegwerf-Branch (`test/commit-guard-calibration`, von
+  `harness-fix/2-commit-guard` abgezweigt, danach lokal gelöscht, nie
+  gepusht) durchgespielt — kein Unit-Test über stdin, echter Aufruf über
+  den verkabelten Hook-Pfad. Rot (Punkt 8): `git commit --allow-empty -m
+  test` ohne vorhandene Freigabe-Datei, ca. 2026-08-17T11:40 → abgewiesen.
+  Grün (Punkt 9): frische, vom Menschen im eigenen Editor angelegte
+  `state/freigabe-commit.md` (`Freigegeben: <ISO-Zeitstempel>`) →
+  derselbe Commit-Befehl läuft durch, Commit `129cd01` um
+  2026-08-17T11:54:13+02:00; `git status` direkt danach bestätigt, dass
+  die Freigabe-Datei durch den Hook gelöscht wurde. Rot, zweiter Teil
+  (Einmal-Verbrauch): unmittelbar danach `git commit --allow-empty -m
+  test2` ohne neue Freigabe, 2026-08-17T11:54:54+02:00 → wieder
+  abgewiesen. Nebenbefund, kein Hook-Fehler: Zwei vorgelagerte Versuche
+  scheiterten an der Freigabe-Datei selbst, nicht am Hook — einmal UTF-16
+  statt UTF-8, einmal UTF-8-BOM (Node `fs.readFileSync(..., "utf8")`
+  entfernt ein BOM nicht automatisch, wodurch `^Freigegeben` am
+  Zeilenanfang nicht mehr matcht). Beide Male neu in VS Code als reines
+  UTF-8 ohne BOM gespeichert, danach lief der Grün-Fall durch. Zeitstempel
+  von Punkt 8 ist eine Schätzung aus der Rückschau (kein Git-Artefakt, da
+  der abgewiesene Commit keinen Hash hinterlässt), alle übrigen
+  Zeitstempel sind belegt (Commit-Zeitstempel bzw. Tool-Aufrufzeit dieser
+  Konversation).
