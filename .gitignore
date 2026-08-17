@@ -22,6 +22,11 @@ coverage/
 state/zwischenstand/*.md
 !state/zwischenstand/VORLAGE.md
 
+# Einmal-Freigabe für den Commit-Guard (.claude/hooks/commit-guard.js) —
+# ephemer, ein personenbezogener Freigabe-Vorgang für genau einen Commit.
+# Nie committen: Läge sie im Repo, wäre sie kein zweiter Schlüssel mehr.
+state/freigabe-commit.md
+
 # Editor-/OS-Artefakte
 .DS_Store
 Thumbs.db

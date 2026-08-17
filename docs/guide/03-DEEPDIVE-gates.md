@@ -14,20 +14,32 @@ lesen müsste.
 
 ---
 
-## Die drei Stufen im Template
+## Die vier Stufen im Template
 
 ```
-  Beim Tippen          Vor dem Commit           Vor dem Merge
-  ───────────          ──────────────           ─────────────
-  PostToolUse-Hook  →  npm run check        →   CI + Branch Protection
-  (Linter, sofort)     (alles, lokal)           (alles, fremde Maschine)
+  Beim Tippen       Vor dem Commit      Beim Commit-Versuch     Vor dem Merge
+  ───────────       ──────────────      ────────────────────    ─────────────
+  PostToolUse-Hook → npm run check   →  commit-guard.js      →  CI + Branch Protection
+  (Linter, sofort)   (alles, lokal)     (PreToolUse, Bash)       (alles, fremde Maschine)
 
-  schnell, eng         vollständig, deins       vollständig, unbestechlich
+  schnell, eng       vollständig, deins  wer darf drücken        vollständig, unbestechlich
 ```
 
 Jede Stufe fängt ab, was die vorige durchgelassen hat. Die letzte ist die
 einzige, die du selbst nicht umgehen kannst — deshalb ist sie die
 wichtigste.
+
+Die dritte Stufe prüft etwas anderes als die übrigen drei: nicht
+Codequalität, sondern **Autorisierung**. `npm run check` kann grün sein und
+der Commit trotzdem nicht laufen — weil niemand ihn freigegeben hat.
+`.claude/hooks/commit-guard.js` verweigert jeden `git commit`/`git push`
+über das Modell, außer eine frische Einmal-Freigabe
+(`state/freigabe-commit.md`, 10 Minuten Frischefenster) liegt vor; danach
+löscht er sie sofort. Die Freigabe-Datei kann **nur im Editor des
+Menschen** entstehen — `guard-settings.js` sperrt Edit/Write darauf, der
+Commit-Guard selbst sperrt jeden Bash-Zugriff darauf. Könnte das Modell
+sie sich selbst schreiben, wäre sie kein zweiter Schlüssel, sondern nur
+eine Formalität, die sich selbst erfüllt.
 
 ---
 
