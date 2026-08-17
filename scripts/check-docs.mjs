@@ -30,6 +30,17 @@ console.log('\n=== Doku-Check ===\n')
 // Begründung steht dann im selben Kommentar — wie bei eslint-disable.
 
 const agentDir = '.claude/agents'
+const skillsDir = '.claude/skills'
+const commandsDir = '.claude/commands'
+
+function sammleSkillDateien(dir) {
+  if (!existsSync(dir)) return []
+  return readdirSync(dir, { withFileTypes: true })
+    .filter((eintrag) => eintrag.isDirectory())
+    .map((eintrag) => `${dir}/${eintrag.name}/SKILL.md`)
+    .filter((pfad) => existsSync(pfad))
+}
+
 const anweisungsDateien = [
   'CLAUDE.md',
   'ARCHITECTURE.md',
@@ -38,6 +49,12 @@ const anweisungsDateien = [
     ? readdirSync(agentDir)
         .filter((f) => f.endsWith('.md'))
         .map((f) => `${agentDir}/${f}`)
+    : []),
+  ...sammleSkillDateien(skillsDir),
+  ...(existsSync(commandsDir)
+    ? readdirSync(commandsDir)
+        .filter((f) => f.endsWith('.md'))
+        .map((f) => `${commandsDir}/${f}`)
     : []),
 ]
 
