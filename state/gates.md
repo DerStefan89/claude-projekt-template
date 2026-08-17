@@ -14,7 +14,7 @@ ungeprüftes Versprechen.
 | CI | `.github/workflows/ci.yml` | `npm run check` auf frischer Maschine + Secret-Scan | [FÜLLUNG] | [FÜLLUNG] |
 | Branch Protection | GitHub-Repo-Einstellung, kein Datei-Artefakt (siehe SETUP.md Punkt 1) | Required Status Check `check` vor Merge auf `main`, ohne Admin-Bypass | [FÜLLUNG] | [FÜLLUNG] |
 | `guard-settings.js`-Hook | `.claude/hooks/guard-settings.js` | Edit/Write auf geteilte `.claude/settings.json` und `state/freigabe-commit.md` | Zwei reale Edit-Versuche über das Edit-Tool auf `.claude/settings.json`, 2026-08-17, im Rahmen eines Diagnose-Auftrags (vermuteter Durchschlupf sollte reproduziert werden) → beide korrekt verweigert, identische Meldung: „Schreibzugriff auf geteilte settings.json blockiert. Absichtliche Aenderung: Hook in .claude/settings.json (hooks.PreToolUse) temporaer entfernen, Grund im Commit nennen." Kein Durchschlupf reproduzierbar. | Edit-Versuch auf eine unbeteiligte Datei (Scratchpad, außerhalb des Repos), 2026-08-17 → lief ungehindert durch, keine Guard-Reaktion |
-| `commit-guard.js`-Hook | `.claude/hooks/commit-guard.js` | `git commit`/`git push` ohne frische Freigabe-Datei; Bash-Zugriff auf `.claude/settings.json`; Bash-Zugriff auf `state/freigabe-commit.md` | `git commit --allow-empty -m test` auf `test/commit-guard-calibration` ohne vorhandene Freigabe-Datei, ca. 2026-08-17T11:40 → abgewiesen ("git commit/push ohne Freigabe-Datei … verweigert"); derselbe Befehl erneut um 2026-08-17T11:54:54+02:00, unmittelbar nach Verbrauch der vorherigen Freigabe → wieder abgewiesen, gleiche Meldung | `git commit --allow-empty -m test` mit frischer, vom Menschen angelegter Freigabe-Datei (`Freigegeben: <ISO-Zeitstempel>`) → Commit `129cd01` um 2026-08-17T11:54:13+02:00 durchgegangen; `git status` direkt danach zeigt `state/freigabe-commit.md` nicht mehr — Einmal-Verbrauch bestätigt |
+| `commit-guard.js`-Hook | `.claude/hooks/commit-guard.js` | `git commit`/`git push` ohne frische Freigabe-Datei (Zeitzone/Offset und BOM/UTF-16 gehärtet, siehe Kalibrierungs-Log 2026-08-17 „Härtung Vertrag 5"); Bash-Zugriff auf `.claude/settings.json`; Bash-Zugriff auf `state/freigabe-commit.md` | `git commit --allow-empty -m test` auf `test/commit-guard-calibration` ohne vorhandene Freigabe-Datei, ca. 2026-08-17T11:40 → abgewiesen ("git commit/push ohne Freigabe-Datei … verweigert"); derselbe Befehl erneut um 2026-08-17T11:54:54+02:00, unmittelbar nach Verbrauch der vorherigen Freigabe → wieder abgewiesen, gleiche Meldung; **Push-Pfad, Härtung Vertrag 5:** `git push` auf `test/guard-haertung-calibration` unmittelbar nach Commit `7559cef` (2026-08-17T20:58:08+02:00), ohne neue Freigabe → abgewiesen, gleiche Meldungsklasse — erster dokumentierter Rot-Fall für `push` im Repo | `git commit --allow-empty -m test` mit frischer, vom Menschen angelegter Freigabe-Datei (`Freigegeben: <ISO-Zeitstempel>`) → Commit `129cd01` um 2026-08-17T11:54:13+02:00 durchgegangen; `git status` direkt danach zeigt `state/freigabe-commit.md` nicht mehr — Einmal-Verbrauch bestätigt; **Push-Pfad, Härtung Vertrag 5:** [offen — wird nach dem realen, freigegebenen Abschluss-Push ergänzt, siehe OUTPUT] |
 | Zwischenstand-Loop | `.claude/hooks/zwischenstand-pruefen.js` (PreCompact), `.claude/hooks/zwischenstand-laden.js` (SessionStart) | Frische des Zwischenstands vor manueller Compaction; Laden des Zwischenstands nach Sitzungsstart/`/clear` | Zwischenstandsdatei mit `Zuletzt aktualisiert:` älter als 60 Minuten (`2026-08-17T08:00` bei Lauf um `11:14`) → `decision: block` bei `trigger: manual` | Zwischenstandsdatei mit frischem Zeitstempel (`2026-08-17T11:15`) → kein Block bei `trigger: manual`; SessionStart mit `source: clear` liefert den Dateiinhalt als `additionalContext` |
 
 ## Kalibrierungs-Log
@@ -158,3 +158,128 @@ nicht die Tabelle oben stillschweigend überschreiben.
   offen, nicht spekuliert. Ergänzend ein realer Grün-Fall (Edit auf eine
   unbeteiligte Datei außerhalb des Repos, lief ungehindert durch) und die
   Korrektur der „Prüft"-Spalte auf beide von Vertrag 2 geschützten Dateien.
+
+- 2026-08-17, `commit-guard.js`-Hook, Härtung (Vertrag
+  `harness-fix-5-commit-guard-haerten`): Zeitzone/Offset, BOM/UTF-16 und
+  drei Fehlermeldungen gehärtet (SCOPE Punkte 1–4). Kalibrierung in vier
+  Teilen:
+  **Teil 1, Unit-Test der Lesefunktion (Punkt 5), Wegwerf-Skript
+  `_test-commit-guard-unit.mjs`, nicht committet, nach dem Lauf gelöscht —
+  alle sechs Fälle bestanden:** (1) reines UTF-8 ohne BOM, Zeitstempel ohne
+  Offset → erkannt, `2026-08-17T14:03:00` als Ortszeit gelesen → intern
+  `2026-08-17T12:03:00.000Z`; (2) UTF-8 **mit** BOM, gleicher Zeitstempel →
+  erkannt, gleiches Ergebnis (vor dem Fix: nicht erkannt); (3) UTF-16 LE
+  mit BOM, gleicher Zeitstempel → erkannt, gleiches Ergebnis (vor dem Fix:
+  nicht erkannt); (4) Zeitstempel mit `Z` (`2026-08-17T14:03:00Z`) →
+  erkannt, als UTC interpretiert, intern `2026-08-17T14:03:00.000Z`
+  (Soll-Wert per `Date.parse` gegengerechnet, exakter Treffer); (5)
+  Zeitstempel mit `+02:00` (`2026-08-17T14:03:00+02:00`) → erkannt, als
+  MESZ interpretiert, intern `2026-08-17T12:03:00.000Z` (Soll-Wert
+  gegengerechnet, exakter Treffer); (6) Zeile ohne `Freigegeben:` am
+  Zeilenanfang (`# Kommentar Freigegeben: 2026-08-17T14:03:00`, Fließtext)
+  → **nicht** erkannt — belegt, dass Anker `^` und `m`-Flag unverändert
+  blieben. Lauf mit `TZ=Europe/Berlin` (Sitzungs-Standardzone,
+  MESZ/UTC+2 zum Testzeitpunkt).
+  **Teil 2, Rot-Fall `commit` (Punkt 6):** `git commit --allow-empty -m
+  test` auf Wegwerf-Branch `test/guard-haertung-calibration` (von
+  `harness-fix/5-commit-guard-haerten` abgezweigt), ohne vorhandene
+  Freigabe-Datei → abgewiesen, Meldung „git commit/push ohne
+  Freigabe-Datei … verweigert" mit dem neuen, ausführlicheren
+  Format-Beispiel (Punkt 3).
+  **Teil 3, Vorher/Nachher-Beleg (Punkt 7) — zwei Durchläufe, der erste
+  schlug fehl und ist Teil des Befunds, nicht weggelassen:**
+  *Erster Durchlauf, Testformat aus dem ursprünglichen Vertragstext
+  („mit Offset, Format JJJJ-MM-TTThh:mm:ss+hh:mm"):* Freigabe-Datei mit
+  einem `+02:00`-Zeitstempel (entspricht der lokalen Zeitzone,
+  MESZ) angelegt. Alter Hook (`commit-guard.alt.js`, `git show
+  main:.claude/hooks/commit-guard.js`, nicht committet) gegen diese Datei
+  aufgerufen → **keine Verweigerung**, keine Ausgabe — der alte Hook ließ
+  die Datei durch und verbrauchte sie (Erfolgspfad löscht die Datei
+  genau wie der neue Hook, aber ohne Ausgabe). [Schlussfolgerung, per
+  Nachtrag 17.08.2026 im Vertrag] Der Fehler im alten Hook (Offset wird
+  abgeschnitten, Rest als Ortszeit gelesen) hebt sich rechnerisch auf,
+  wenn der geschriebene Offset exakt dem lokalen Offset entspricht — der
+  Testfall aus dem ursprünglichen Vertragstext konnte deshalb strukturell
+  nicht fehlschlagen. Der Fehler lag im Vertrag (Testformat), nicht im
+  Fix und nicht in Befund B2 — B2 nennt explizit einen UTC-Zeitstempel
+  (`date -u -Is`) als realistischen Fall. Vertrag um „Nachtrag 17.08.2026
+  — Korrektur des Testformats in Punkt 7" ergänzt, ursprünglicher
+  Wortlaut unverändert stehen gelassen.
+  *Zweiter Durchlauf, korrigiertes Testformat (UTC/`Z`):* neue
+  Freigabe-Datei mit UTC-Zeitstempel (`…Z`) angelegt. Alter Hook (gleiche
+  `commit-guard.alt.js`, wiederverwendet) dagegen aufgerufen → **abgewiesen**,
+  Meldung „ist 120 Minuten alt (Frischefenster 10 Minuten) — verweigert"
+  — deckt sich mit der in B2 vorhergesagten Zwei-Stunden-Drift zwischen
+  UTC und MESZ. Datei blieb liegen (Rot-Fall verbraucht nicht). Danach
+  neuer Hook, echter Commit: `git commit --allow-empty -m test` auf
+  demselben Wegwerf-Branch → durchgegangen, Commit `7559cef` um
+  2026-08-17T20:58:08+02:00; `git status` direkt danach zeigt die
+  Freigabe-Datei nicht mehr. `commit-guard.alt.js` sofort danach gelöscht.
+  **Teil 4, Rot-Fall `push` (Punkt 8):** unmittelbar nach Commit
+  `7559cef`, ohne neue Freigabe: `git push` auf `test/guard-haertung-calibration`
+  → abgewiesen, gleiche Meldungsklasse wie der Commit-Rot-Fall — erster
+  dokumentierter Rot-Fall für den Push-Pfad im Repo.
+  Wegwerf-Branch danach lokal gelöscht (`git branch -D
+  test/guard-haertung-calibration`), nie gepusht.
+  **Grenze, ausdrücklich festgehalten:** Der Kodierungsfall (BOM, UTF-16)
+  ist nur über den Unit-Test der reinen Lesefunktion belegt (Teil 1), nicht
+  Ende-zu-Ende über einen echten Git-Befehl — die Freigabe-Datei ist für
+  das Modell absichtlich unerreichbar (jeder Bash-Befehl, der ihren Pfad
+  referenziert, wird vom Hook selbst blockiert), ein Modell kann also keine
+  BOM-/UTF-16-Datei anlegen, um den Ende-zu-Ende-Pfad zu testen. Das ist
+  eine dokumentierte Grenze, keine Nachlässigkeit.
+  **Reibung, notiert nicht als Sicherheitsloch:** Der synthetische
+  Vorher/Nachher-Test in Teil 3 durfte die Simulations-Eingabe
+  (`{"tool_input":{"command":"git commit -m test"},...}`) nicht per `echo
+  ... | node commit-guard.alt.js` an stdin übergeben, weil der aktiv
+  verkabelte (neue) Hook jeden Bash-Befehl abfängt, der die Wörter „git"
+  und „commit"/„push" als eigenständige Tokens enthält — auch innerhalb
+  eines JSON-Text-Literals in einem Diagnose-Befehl, nicht nur in einem
+  echten Git-Aufruf. Umgangen über eine Payload-Datei im Scratchpad plus
+  `<`-Umleitung (`node commit-guard.alt.js < payload.json`), sodass die
+  kritischen Wörter nicht im eigentlichen Bash-Befehl standen. Kein
+  Sicherheitsloch — echte Git-Befehle laufen weiterhin über den Hook —,
+  aber die erste real aufgetretene Instanz der im Kopfkommentar
+  dokumentierten „breiten, nicht exakten" Muster-Grenze: Sie blockiert
+  auch Diagnose-Befehle, die nur zufällig dieselben Wörter im Text tragen.
+
+- 2026-08-17, `commit-guard.js`-Hook, Nachtrag zur Härtung (Vertrag
+  `harness-fix-5-commit-guard-haerten`, „Nachtrag 17.08.2026 —
+  Sekundenbruchteile"): Ein echter Commit-Versuch mit einer vom Menschen
+  angelegten Freigabe-Datei wurde abgewiesen („keine gültige Zeile").
+  Diagnose gegen synthetische Daten (BOM, CRLF, Leerzeichen vor dem
+  Doppelpunkt, Millisekunden — alle gegen `parseFreigabeZeitstempel`
+  bzw. `dekodiereFreigabeInhalt` getestet, nicht gegen die echte Datei)
+  fand keinen Fehler im Normalfall, deckte aber auf: Sekundenbruchteile
+  (`.000Z`, wie `new Date().toISOString()` sie erzeugt) wurden zwar
+  erkannt, aber falsch interpretiert — derselbe Fehler wie B2, nur am
+  Sekundenbruchteil statt am Offset. Regex zunächst um `(?:\.\d{1,3})?`
+  zwischen Sekunden und Offset ergänzt. Zwei Unit-Fälle,
+  Wegwerf-Skript `_test-commit-guard-unit-ms.mjs`, nicht committet, nach
+  dem Lauf gelöscht — beide bestanden: (7) `2026-08-17T14:03:00.000Z` →
+  erkannt, als UTC interpretiert, `2026-08-17T14:03:00.000Z` (Soll-Wert
+  per `Date.parse` gegengerechnet, exakter Treffer — vor dem Fix wäre das
+  Ergebnis `2026-08-17T12:03:00.000Z` gewesen, zwei Stunden Drift); (8)
+  `2026-08-17T14:03:00.123+02:00` → erkannt, als MESZ interpretiert,
+  `2026-08-17T12:03:00.123Z` (Soll-Wert gegengerechnet, exakter Treffer).
+  Die eigentliche Ursache der ursprünglichen Ablehnung (der reale
+  Freigabe-Datei-Inhalt, der zur „keine gültige Zeile"-Meldung führte)
+  blieb ungeklärt, da die Datei für das Modell unerreichbar ist.
+  **Korrektur, gleicher Tag:** Der Drei-Stellen-Fix war selbst zu eng —
+  ab vier Nachkommastellen greift dieselbe Drift erneut (Python
+  `datetime.isoformat()`: sechs Stellen, PowerShell `Get-Date -Format o`:
+  sieben, `date -u -Ins`: neun). Wichtiger: Ein Testfall mit sieben Stellen
+  und `+02:00` lief zunächst grün, aber nur scheinbar korrekt — Rest und
+  lokaler Offset hoben sich gegenseitig auf, dieselbe Scheinkorrektheit wie
+  beim ersten Kalibrierungsversuch zu Punkt 7 weiter oben. Fix korrigiert
+  zu `(?:\.\d+)?` (beliebig viele Stellen, keine unbegründbare Obergrenze).
+  Zwei weitere Unit-Fälle, Wegwerf-Skript `_test-commit-guard-unit-ms2.mjs`,
+  nicht committet, nach dem Lauf gelöscht — beide bestanden: (9)
+  `2026-08-17T19:28:08.123456Z` (6 Stellen) → erkannt, als UTC
+  interpretiert, `2026-08-17T19:28:08.123Z` (Soll-Wert per `Date.parse`
+  gegengerechnet, exakter Treffer — `Date.parse` selbst kappt auf
+  Millisekunden, das ist eine JS-Grenze, keine Regex-Grenze); (10)
+  `2026-08-17T21:28:08.1234567+02:00` (7 Stellen) → erkannt, als MESZ
+  interpretiert, `2026-08-17T19:28:08.123Z` (Soll-Wert gegengerechnet,
+  exakter Treffer). Der Mensch legt die nächste Freigabe-Datei mit einem
+  einfacheren Format (Ortszeit ohne Offset) neu an.
