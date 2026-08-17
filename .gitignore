@@ -25,3 +25,9 @@ state/zwischenstand/*.md
 # Editor-/OS-Artefakte
 .DS_Store
 Thumbs.db
+
+# Programm-Ebene — Basislinie und Erfolgskriterium der vier Beteiligten.
+# Personenbezogen, gehört nicht in ein öffentliches Vorlagen-Repo und
+# nicht in einen abgeleiteten Projekt-Klon. Zieht in Phase 3 in das
+# Lern-Repo (Befund P4).
+programm/
