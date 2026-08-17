@@ -33,6 +33,11 @@ npm run dev
 npm run check     # das Tor vor jedem Commit — Kette siehe package.json
 ```
 
+`npm run check` ist die volle Kette inklusive Projekt-Lint/Typecheck/Test;
+`npm run check:template` prüft nur den Harness selbst (Doku-Gate,
+Regel-Gate, Vertragsprüfung), unabhängig vom Projektstack, und bleibt im
+leeren Template grün.
+
 ---
 
 ## 📐 Arbeitsweise — IMMER einhalten
