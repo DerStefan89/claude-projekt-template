@@ -6,6 +6,7 @@
 | Werkzeug | Zweck | Eingeführt (Datum) | Über Skill `werkzeug-auswahl` geprüft? |
 |---|---|---|---|
 | gitleaks | Secret-Scan in CI | 2026-08-08 (Commit `e23a9bb`, initiales Template-Gerüst) | [Annahme] vermutlich nein — vor diesem Programm eingeführt, keine Prüfspur gefunden |
+| `.claude/skills/ponytail/` (vendorte Kopie, Versionspin `v4.8.4`, Lizenz MIT) | Ladder-Verfahren gegen Over-Engineering | 2026-08-08 (per `git log --diff-filter=A -1 --format=%as -- .claude/skills/ponytail/SKILL.md`) | [Annahme] vor diesem Programm übernommen, keine Prüfspur über den Skill `werkzeug-auswahl` gefunden |
 
 ## Bewusst nicht installiert
 

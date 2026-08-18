@@ -18,8 +18,15 @@ interessant aussieht — nur weil eine konkrete Aufgabe es braucht.
    notieren, nicht installieren. Einordnen: wiederkehrende Aufgabe → Skill
    · Zugriff auf ein externes System → MCP · ganze Arbeitsweise/Rolle →
    Plugin.
-2. **Pruefen, ob es das schon gibt.** Vorhandene Skills, Subagenten,
-   Slash-Kommandos und selbst gebaute Mechanik zuerst durchsehen.
+2. **Pruefen, ob es das schon gibt.**
+   - 2a. Vorhandene Skills, Subagenten, Slash-Kommandos und selbst gebaute
+     Mechanik zuerst durchsehen.
+   - 2b. `state/tooling.md` — wurde das in DIESEM Projekt schon
+     entschieden, auch negativ?
+   - 2c. `docs/harness/werkzeug-katalog.md` — wurde das in einem ANDEREN
+     Projekt schon geprueft? Eintrag vorhanden: Herkunfts-Check aus Schritt
+     3 entfaellt, es bleiben Bedarfsfrage und Versionspin. Kein Eintrag:
+     volle Prozedur, und das Ergebnis wird ein neuer Katalog-Eintrag.
 3. **Herkunfts-Check.** Quell-Repo aufrufen — nie einen
    Verzeichnis-Eintrag. Wer pflegt es? Lizenz erkennbar? Juengere
    Aktivitaet? Telemetrie, abschaltbar? Bleibt etwas unklar: "unklar"
