@@ -17,3 +17,17 @@ wird, ohne dass die frühere Entscheidung sichtbar ist.
 | Werkzeug | Warum nicht | Entschieden am |
 |---|---|---|
 | [FÜLLUNG] | | |
+
+## Offener Fund: Node-Bindung des Harness
+
+[Fakt] Fünf Hook-Aufrufe laufen über `node`, `package.json` deklariert
+`engines.node`, die CI-Toolchain ist Node.
+
+[offene Unsicherheit] Ob das Harness damit node-gebunden ist, oder ob die
+Mechanik (ein Prüf-Befehl, ein Gate pro Prüfung) genauso in einem
+Python-/Foundry-/ffmpeg-Projekt trägt, ist ungeklärt.
+
+[Entschieden 17.08.2026] Frage erneut vertagt — Ziel-Phase: Phase 3,
+zusammen mit der Prüfbefehl-Indirektion 3b
+(`state/plan-v2-phase2-adoptionsfaehigkeit.md`). Kein Fix in diesem
+Vertrag.

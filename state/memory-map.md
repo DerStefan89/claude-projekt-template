@@ -25,4 +25,8 @@ derselbe Fakt an drei Stellen im Quell-Projekt dieses Templates).
 | Was es an Werkzeugen gibt und wann es sich lohnt | `docs/harness/werkzeug-katalog.md` | was in diesem Projekt läuft |
 | Was in diesem Projekt läuft oder abgelehnt wurde | `state/tooling.md` | allgemeine Werkzeugkunde |
 | Warum diese Stack-Entscheidung fiel | `docs/adr/*.md` | Werkzeug-Katalog — eine Backend- oder Datenbankwahl ist eine Architekturentscheidung, kein Werkzeug |
+| Reibungsvorfälle | `state/reibung.md` | nicht in `state/assumption-ledger.md` (dort stehen offene Annahmen, keine Vorfälle) und nicht in ein separates Repo |
+| Abgespaltener Architektur-Teilbereich | eigene Datei plus memory-map-Zeile plus Rückverweis aus `ARCHITECTURE.md` | keine Abspaltung ohne die drei Bedingungen aus der Aufteilungsregel (`ARCHITECTURE.md`, Kopfkommentar) |
+| Datenbankschema | erzeugt aus den Migrationen | keine von Hand gepflegte Schema-Datei unter `docs/` |
+| API-Vertrag | erzeugt aus dem Code | keine von Hand gepflegte API-Datei unter `docs/`. Was an beiden **Regel** ist (Namenskonvention, wer darf schreiben, Versionierung, Fehlerformat), bleibt in `ARCHITECTURE.md` |
 | [FÜLLUNG] | | |

@@ -27,7 +27,8 @@ process.stdin.on("end", () => {
         systemMessage:
           `Kontext-Hygiene: ${zaehler} Nachrichten in dieser Session. ` +
           `Pruefe mit /context, wie voll das Fenster ist. ` +
-          `Bei Themenwechsel: /clear oder frischer Chat.`,
+          `Bei Themenwechsel: /clear oder frischer Chat. ` +
+          `Hat dich etwas aufgehalten? Eine Zeile nach state/reibung.md.`,
       })
     );
   }

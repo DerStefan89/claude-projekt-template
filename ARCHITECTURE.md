@@ -5,6 +5,16 @@ Abschnitts ist stackgebunden und entsteht in deinem Projekt neu.
 
 Fülle sie erst, wenn du deine erste echte Architekturentscheidung getroffen
 hast — vorher stehen hier Regeln, die nie geprüft wurden.
+
+Aufteilungsregel: Ein Abschnitt wird eine eigene Datei, wenn drei Dinge
+zutreffen — er trägt mindestens drei echte, belegte Entscheidungen · er
+wird unabhängig vom Rest nachgeschlagen · er hat ein eigenes Gate. Vorher
+bleibt er ein Abschnitt.
+
+Bei jeder Abspaltung gelten zwei Pflichten: ein memory-map-Eintrag mit
+„nicht hierhin"-Spalte, und ein Rückverweis aus ARCHITECTURE.md, damit
+Prüfung 1 des Doku-Gates den Verfall fängt. `CLAUDE.md` muss danach sagen,
+WANN welche Datei zu lesen ist, nicht nur DASS es sie gibt.
 -->
 
 # ARCHITECTURE.md — [PROJEKTNAME]

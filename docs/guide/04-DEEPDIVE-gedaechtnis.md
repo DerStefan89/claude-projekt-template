@@ -120,6 +120,32 @@ Der zweite Abschnitt ist der wertvollere. Er verhindert, dass in vier
 Monaten dieselbe Werkzeugdebatte von vorn beginnt, weil niemand mehr weiß,
 dass sie schon geführt wurde.
 
+### `state/reibung.md`
+Eine Zeile pro Reibungsvorfall — jeder Moment, in dem etwas den
+Arbeitsfluss aufgehalten hat. Liegt im Projekt-Repo statt in einem
+fünften, separat gepflegten Repo, weil genau die Person, die gerade
+abkürzt, nicht zu einem weiteren Ort wechselt, um die Abkürzung
+festzuhalten.
+
+Bewusst **kein** Gate dafür: Ein Gate, das fehlende Einträge bestraft,
+würde Ehrlichkeit bestrafen und Einträge erzeugen statt Reibung zu messen.
+Die Datei trägt aus demselben Grund keinen `Stand dieser Fassung:`-Marker
+— sie ist ein Anhänge-Protokoll, kein Dokument mit festem Stand.
+
+### `state/freigabe-commit.md`
+Der zweite Schlüssel des Commit-Guards. Wird **nur vom Menschen** angelegt,
+im eigenen Editor — nicht von einem Modell, nicht über Bash. Format der
+Zeile: `Freigegeben: <ISO-Zeitstempel>` (mit oder ohne Offset, auch UTC
+mit `Z`).
+
+Eine Freigabe gilt für **einen** Git-Vorgang (`commit` ODER `push`, nicht
+beide) — ein vollständiger Iterationsabschluss laut `CLAUDE.md`
+(„committen UND pushen") braucht deshalb zwei Freigaben nacheinander. Die
+Datei wird **nie committet** (siehe `.gitignore`), und Bash-Zugriff auf
+sie ist absichtlich blockiert — auch harmlos wirkende Befehle wie `ls`
+oder `cat`, damit kein Modell ihren Inhalt lesen oder ihre Existenz über
+einen Umweg prüfen kann.
+
 ### `state/tasks/` — Handoff-Verträge
 **Was das ist:** Ein Auftrag, so aufgeschrieben, dass eine Sitzung ohne
 jeden Vorkontext ihn ausführen kann. Feste Abschnitte:
