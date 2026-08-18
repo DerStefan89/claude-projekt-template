@@ -95,8 +95,9 @@ Der Unterschied zu Gates in einem Satz: Ein Gate prüft automatisch, ob
 etwas in Ordnung ist. Ein Trigger erinnert einen Menschen daran, etwas zu
 tun.
 
-Beispiele aus dem Template: „Neues Werkzeug soll rein → erst
-`werkzeug-auswahl`". „Entscheidung mit Nebenwirkungen → erst Advisor".
+Beispiele aus dem Template: „Neues Werkzeug soll rein → erst im
+Werkzeug-Katalog nachschlagen, dann `werkzeug-auswahl`". „Entscheidung mit
+Nebenwirkungen → erst Advisor".
 „Zyklus abgeschlossen → Lerntagebuch nachtragen".
 
 ### `state/assumption-ledger.md`

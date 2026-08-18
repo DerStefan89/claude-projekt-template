@@ -319,3 +319,30 @@ nicht die Tabelle oben stillschweigend überschreiben.
   Damit sind an diesem Abend vier verschiedene Verweigerungszweige des
   Hooks real aufgetreten: fehlende Datei, ungültige Zeile, Zeitstempel zu
   alt, Zeitstempel in der Zukunft.
+
+- 2026-08-18, Doku-Gate, Vertrag `harness-fix-6-werkzeug-katalog`,
+  Kalibrierung des einzigen greifenden Verweises auf den neuen
+  Werkzeug-Katalog (`.claude/skills/werkzeug-auswahl/SKILL.md`, Schritt
+  2c). Rot: Verweis temporär von `docs/harness/werkzeug-katalog.md` auf
+  den nicht existierenden Pfad `docs/harness/werkzeug-katalog-x.md`
+  umgebogen, `node scripts/check-docs.mjs` gelaufen → Exit 1, Ausgabe im
+  Wortlaut:
+  ```
+  === Doku-Check ===
+
+  ✗ 1 Befund(e):
+
+    - .claude/skills/werkzeug-auswahl/SKILL.md:26: Verweis auf `docs/harness/werkzeug-katalog-x.md` — Datei existiert nicht
+  ```
+  Grün: Verweis auf `docs/harness/werkzeug-katalog.md` zurückgestellt,
+  derselbe Befehl → Exit 0, Ausgabe im Wortlaut:
+  ```
+  === Doku-Check ===
+
+  ✓ Keine Befunde.
+  ```
+  Damit ist belegt, dass die einzige Gate-Abdeckung des Katalogs in
+  Phase 2 wirklich greift. **Ausdrücklich nicht abgedeckt: K4
+  (Stand-Marker-Pflicht in Katalog-Einträgen).** Ein Marker-Pflicht-Check
+  existiert nicht und wird erst mit N7 (Platzhalter-Check) in Phase 3
+  scharf gestellt.

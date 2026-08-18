@@ -40,9 +40,11 @@ nichts und verwirrt nur.
 
 ## 3. Werkzeuge auswählen
 
-Vor der ersten Installation: Skill `werkzeug-auswahl` laufen lassen (liegt
-unter `.claude/skills/`). Bedarf zuerst, dann Herkunfts-Check. Ergebnis —
-auch das negative — nach `state/tooling.md`.
+Vor der ersten Installation: zuerst in `docs/harness/werkzeug-katalog.md`
+nachschlagen, ob das Werkzeug dort schon geprüft ist, bevor die volle
+Prozedur läuft. Danach Skill `werkzeug-auswahl` laufen lassen (liegt unter
+`.claude/skills/`). Bedarf zuerst, dann Herkunfts-Check. Ergebnis — auch
+das negative — nach `state/tooling.md`.
 
 Test-Runner, Linter, CI-Toolchain sind alle Füllung. Für Node/TypeScript-
 Stacks ist `.github/workflows/ci.yml` bereits ein sinnvoller Start; für

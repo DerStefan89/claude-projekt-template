@@ -11,7 +11,8 @@ ist (z. B. "diese Architekturentscheidung hat Nebenwirkungen").
 
 | Trigger | Bedingung | Auszulösende Handlung | Wer prüft |
 |---|---|---|---|
-| Neues Werkzeug | Neue Library/neuer Service soll eingebunden werden | Skill `werkzeug-auswahl` zuerst durchlaufen | Mensch |
+| Neues Werkzeug | ein Werkzeug wird erwogen | zuerst im Werkzeug-Katalog nachschlagen, dann Skill `werkzeug-auswahl` | Mensch |
+| Werkzeug mit hohem Blast Radius | das Werkzeug bekommt schreibenden Zugriff auf fremde Systeme, leitet Arbeitsinhalte an Dritte weiter oder protokolliert jeden Tool-Aufruf mit | Advisor-Pass VOR der Installation, kein Ausnahmefall | Mensch + Agent |
 | Architekturentscheidung mit Alternativen | Mehr als eine plausible Umsetzung, Entscheidung schwer rückgängig zu machen | ADR anlegen (`docs/adr/TEMPLATE.md`) | Mensch |
 | Architekturentscheidung mit Nebenwirkungen | Änderung betrifft mehr als eine Komponente/Datei-Grenze | `architecture-advisor` per `advisor-pass`-Skill gegenprüfen, bevor gebaut wird | Mensch + Agent |
 | UI-Aufgabe abgeschlossen | UI-Code wurde gebaut/geändert | `code-reviewer` und (falls vorhanden) `design-guardian` | Agent |
