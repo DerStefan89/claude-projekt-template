@@ -10,7 +10,20 @@ ist die Mechanik der Gates, nicht ihr Inhalt.
 
 ## Loslegen
 
-Dieses Repo führt dich nicht von selbst. Die Führung kommt aus einem
+Es gibt zwei Wege hinein. Beide führen zum selben Repo, sie unterscheiden
+sich darin, wer die ersten Schritte anleitet.
+
+### Weg 1: `START-KLEIN.md` (empfohlen)
+
+Die Datei liegt in der Repo-Wurzel, höchstens 120 Zeilen, ohne Suchen
+lesbar. Sie führt selbst durch vier Meilensteine — Umgebung, Orientierung,
+echte Änderung, voller Zyklus — und nennt an jeder Stelle die Datei, die
+als Nächstes dran ist. Am Repo selbst öffnen und abarbeiten, kein
+Claude-Projekt nötig.
+
+### Weg 2: geführt über ein Claude-Projekt
+
+Dieses Repo führt dich sonst nicht von selbst. Die Führung kommt aus einem
 Claude-Projekt, das du dir einmal einrichtest — danach begleitet es dich
 Schritt für Schritt.
 
@@ -69,8 +82,10 @@ Claude führt dich durch diese Schritte. Hier stehen sie zum Nachschlagen.
 1. Auf GitHub „Use this template" → „Create a new repository", dann klonen.
    Ohne GitHub: Ordner kopieren und `rm -rf .git && git init` — das Template
    hat keine Baugeschichte, die ein neues Projekt erben sollte.
-2. **`SETUP.md` lesen und abarbeiten** — dort stehen die Schritte, die kein
-   Template als Datei mitbringen kann (Branch Protection allen voran).
+2. **`SETUP.md` Punkt 1 (Branch Protection auf `main`)** greift spätestens
+   beim ersten Push — der Rest von `SETUP.md` folgt punktuell, wenn der
+   jeweilige Schritt dran ist (Werkzeugwahl, UI-Projekt ja/nein, …), nicht
+   als Ganzes vorab.
 3. `CLAUDE.md` und `ARCHITECTURE.md` für den eigenen Stack füllen.
 4. Skill `werkzeug-auswahl` laufen lassen, bevor irgendein Test-Runner,
    MCP oder Plugin installiert wird.
