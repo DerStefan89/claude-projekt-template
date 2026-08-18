@@ -45,6 +45,7 @@ const anweisungsDateien = [
   'CLAUDE.md',
   'ARCHITECTURE.md',
   'README.md',
+  'START-KLEIN.md',
   ...(existsSync(agentDir)
     ? readdirSync(agentDir)
         .filter((f) => f.endsWith('.md'))

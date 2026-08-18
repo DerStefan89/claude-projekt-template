@@ -372,3 +372,26 @@ nicht die Tabelle oben stillschweigend überschreiben.
   ```
   Damit ist die Marker-Freiheit von `state/reibung.md` eine geprüfte
   Entscheidung und keine Vermutung.
+
+- 2026-08-18, Doku-Gate, Vertrag `harness-fix-8-start-klein`, Kalibrierung
+  der Aufnahme von `START-KLEIN.md` in `anweisungsDateien`
+  (`scripts/check-docs.mjs:44-59`). Rot: temporär ein Backtick-Verweis auf
+  die nicht existierende Datei `nicht-vorhanden.md` in `START-KLEIN.md`
+  eingefügt, `node scripts/check-docs.mjs` gelaufen → Exit 1, Ausgabe im
+  Wortlaut:
+  ```
+  === Doku-Check ===
+
+  ✗ 1 Befund(e):
+
+    - START-KLEIN.md:52: Verweis auf `nicht-vorhanden.md` — Datei existiert nirgends im Repo
+  ```
+  Grün: Testverweis wieder entfernt, derselbe Befehl → Exit 0, Ausgabe im
+  Wortlaut:
+  ```
+  === Doku-Check ===
+
+  ✓ Keine Befunde.
+  ```
+  Damit ist die Gate-Abdeckung von `START-KLEIN.md` eine geprüfte
+  Entscheidung und keine Vermutung.
