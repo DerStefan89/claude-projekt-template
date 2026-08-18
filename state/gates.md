@@ -14,7 +14,7 @@ ungeprüftes Versprechen.
 | CI | `.github/workflows/ci.yml` | `npm run check` auf frischer Maschine + Secret-Scan | [FÜLLUNG] | [FÜLLUNG] |
 | Branch Protection | GitHub-Repo-Einstellung, kein Datei-Artefakt (siehe SETUP.md Punkt 1) | Required Status Check `check` vor Merge auf `main`, ohne Admin-Bypass | [FÜLLUNG] | [FÜLLUNG] |
 | `guard-settings.js`-Hook | `.claude/hooks/guard-settings.js` | Edit/Write auf geteilte `.claude/settings.json` und `state/freigabe-commit.md` | Zwei reale Edit-Versuche über das Edit-Tool auf `.claude/settings.json`, 2026-08-17, im Rahmen eines Diagnose-Auftrags (vermuteter Durchschlupf sollte reproduziert werden) → beide korrekt verweigert, identische Meldung: „Schreibzugriff auf geteilte settings.json blockiert. Absichtliche Aenderung: Hook in .claude/settings.json (hooks.PreToolUse) temporaer entfernen, Grund im Commit nennen." Kein Durchschlupf reproduzierbar. | Edit-Versuch auf eine unbeteiligte Datei (Scratchpad, außerhalb des Repos), 2026-08-17 → lief ungehindert durch, keine Guard-Reaktion |
-| `commit-guard.js`-Hook | `.claude/hooks/commit-guard.js` | `git commit`/`git push` ohne frische Freigabe-Datei (Zeitzone/Offset und BOM/UTF-16 gehärtet, siehe Kalibrierungs-Log 2026-08-17 „Härtung Vertrag 5"); Bash-Zugriff auf `.claude/settings.json`; Bash-Zugriff auf `state/freigabe-commit.md` | `git commit --allow-empty -m test` auf `test/commit-guard-calibration` ohne vorhandene Freigabe-Datei, ca. 2026-08-17T11:40 → abgewiesen ("git commit/push ohne Freigabe-Datei … verweigert"); derselbe Befehl erneut um 2026-08-17T11:54:54+02:00, unmittelbar nach Verbrauch der vorherigen Freigabe → wieder abgewiesen, gleiche Meldung; **Push-Pfad, Härtung Vertrag 5:** `git push` auf `test/guard-haertung-calibration` unmittelbar nach Commit `7559cef` (2026-08-17T20:58:08+02:00), ohne neue Freigabe → abgewiesen, gleiche Meldungsklasse — erster dokumentierter Rot-Fall für `push` im Repo | `git commit --allow-empty -m test` mit frischer, vom Menschen angelegter Freigabe-Datei (`Freigegeben: <ISO-Zeitstempel>`) → Commit `129cd01` um 2026-08-17T11:54:13+02:00 durchgegangen; `git status` direkt danach zeigt `state/freigabe-commit.md` nicht mehr — Einmal-Verbrauch bestätigt; **Push-Pfad, Härtung Vertrag 5:** [offen — wird nach dem realen, freigegebenen Abschluss-Push ergänzt, siehe OUTPUT] |
+| `commit-guard.js`-Hook | `.claude/hooks/commit-guard.js` | `git commit`/`git push` ohne frische Freigabe-Datei (Zeitzone/Offset und BOM/UTF-16 gehärtet, siehe Kalibrierungs-Log 2026-08-17 „Härtung Vertrag 5"); Bash-Zugriff auf `.claude/settings.json`; Bash-Zugriff auf `state/freigabe-commit.md` | `git commit --allow-empty -m test` auf `test/commit-guard-calibration` ohne vorhandene Freigabe-Datei, ca. 2026-08-17T11:40 → abgewiesen ("git commit/push ohne Freigabe-Datei … verweigert"); derselbe Befehl erneut um 2026-08-17T11:54:54+02:00, unmittelbar nach Verbrauch der vorherigen Freigabe → wieder abgewiesen, gleiche Meldung; **Push-Pfad, Härtung Vertrag 5:** `git push` auf `test/guard-haertung-calibration` unmittelbar nach Commit `7559cef` (2026-08-17T20:58:08+02:00), ohne neue Freigabe → abgewiesen, gleiche Meldungsklasse — erster dokumentierter Rot-Fall für `push` im Repo | `git commit --allow-empty -m test` mit frischer, vom Menschen angelegter Freigabe-Datei (`Freigegeben: <ISO-Zeitstempel>`) → Commit `129cd01` um 2026-08-17T11:54:13+02:00 durchgegangen; `git status` direkt danach zeigt `state/freigabe-commit.md` nicht mehr — Einmal-Verbrauch bestätigt; **Push-Pfad, Härtung Vertrag 5:** `git push -u origin harness-fix/5-commit-guard-haerten` auf dem echten Arbeitsbranch, nach Commit `8d89041`, ca. 2026-08-17T22:12:29+02:00 (zweiter Versuch, mit frischer Freigabe; erster Versuch ohne `-u` scheiterte an fehlendem Upstream — siehe Kalibrierungs-Log) → durchgegangen, `git status` direkt danach zeigt „up to date with origin/harness-fix/5-commit-guard-haerten", Freigabe-Datei verbraucht |
 | Zwischenstand-Loop | `.claude/hooks/zwischenstand-pruefen.js` (PreCompact), `.claude/hooks/zwischenstand-laden.js` (SessionStart) | Frische des Zwischenstands vor manueller Compaction; Laden des Zwischenstands nach Sitzungsstart/`/clear` | Zwischenstandsdatei mit `Zuletzt aktualisiert:` älter als 60 Minuten (`2026-08-17T08:00` bei Lauf um `11:14`) → `decision: block` bei `trigger: manual` | Zwischenstandsdatei mit frischem Zeitstempel (`2026-08-17T11:15`) → kein Block bei `trigger: manual`; SessionStart mit `source: clear` liefert den Dateiinhalt als `additionalContext` |
 
 ## Kalibrierungs-Log
@@ -283,3 +283,39 @@ nicht die Tabelle oben stillschweigend überschreiben.
   interpretiert, `2026-08-17T19:28:08.123Z` (Soll-Wert gegengerechnet,
   exakter Treffer). Der Mensch legt die nächste Freigabe-Datei mit einem
   einfacheren Format (Ortszeit ohne Offset) neu an.
+
+- 2026-08-17, `commit-guard.js`-Hook, realer Grün-Fall Push-Pfad, Abschluss
+  Vertrag `harness-fix-5-commit-guard-haerten`: Nach dem freigegebenen
+  Abschluss-Commit `8d89041` (2026-08-17T22:07:07+02:00) auf dem echten
+  Arbeitsbranch `harness-fix/5-commit-guard-haerten` zwei Push-Versuche.
+  **Erster Versuch**, mit frischer Freigabe, `git push` ohne `-u`: scheiterte
+  **nicht** am Hook, sondern danach an Git selbst — „the current branch …
+  has no upstream branch" (erster Push dieses Branches). Die Freigabe war
+  zu diesem Zeitpunkt bereits verbraucht (Hook löscht die Datei, *bevor*
+  der eigentliche Git-Befehl läuft), `git status` direkt danach bestätigt
+  den Verbrauch ohne stattgefundenen Push. [Schlussfolgerung] Das ist ein
+  Bauform-Befund, kein Bug im Code: Ein `PreToolUse`-Hook sieht nur, ob er
+  den Befehl durchlässt, nicht, ob der durchgelassene Befehl anschließend
+  erfolgreich ist. Jeder Fehlschlag nach der Hook-Prüfung — fehlender
+  Upstream (wie hier real eingetreten), abgelehnter Push, Netzwerkfehler,
+  Tippfehler im Befehl — verbrennt den zweiten Schlüssel ohne
+  stattgefundenen Git-Vorgang. **Zweiter Versuch**, mit einer weiteren
+  frischen Freigabe, `git push -u origin harness-fix/5-commit-guard-haerten`
+  → durchgegangen, ca. 2026-08-17T22:12:29+02:00; `git status` direkt
+  danach zeigt „up to date with origin/harness-fix/5-commit-guard-haerten",
+  Freigabe-Datei verbraucht. Damit liegen für beide Git-Vorgänge Rot- und
+  Grün-Fall vor: Rot für `commit` und `push` auf dem Wegwerf-Branch, Rot
+  für `push` zusätzlich auf dem Arbeitsbranch, Grün für `commit` und
+  `push` auf dem Arbeitsbranch.
+  **Nebenbefund, vor `8d89041`:** Drei Commit-Versuche auf dem
+  Arbeitsbranch schlugen vorher fehl — nicht am Rot-Fall „fehlende
+  Freigabe-Datei" oben, sondern an einem anderen Hook-Zweig: „keine
+  gültige Zeile" (zweimal) und einmal „liegt in der Zukunft". [offene
+  Unsicherheit] Der tatsächliche Inhalt der Freigabe-Datei bei den beiden
+  „keine gültige Zeile"-Fällen blieb ungeklärt, da die Datei für das
+  Modell unerreichbar ist; bekannt ist nur die Byte-Länge (30 Bytes
+  inklusive Zeilenumbruch), was auf ein Leerzeichen statt „T" oder ein
+  deutsches Datumsformat passen würde — belegt ist keines von beidem.
+  Damit sind an diesem Abend vier verschiedene Verweigerungszweige des
+  Hooks real aufgetreten: fehlende Datei, ungültige Zeile, Zeitstempel zu
+  alt, Zeitstempel in der Zukunft.
