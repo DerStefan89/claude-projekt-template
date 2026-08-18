@@ -86,3 +86,12 @@ Erwartung nicht „keine Funde" — beim ersten Mal findet er fast immer etwas
 Insbesondere: `.claude/settings.local.json` MUSS drin stehen. Diese Datei
 trägt persönliche Freigaben und wird nie reviewt — landet sie versehentlich
 im Repo, ist das ein Sicherheitsfund, kein Stilfehler (siehe G10).
+
+## 8. Erzeugte Wahrheit einrichten
+
+Sobald das Projekt eine Datenbank oder eine öffentliche API hat, werden
+Schema und API-Vertrag nicht von Hand geschrieben, sondern erzeugt — und
+ein Gate wird rot, wenn das Erzeugte vom festgehaltenen Stand abweicht
+(Muster: `dump | diff`). Die Mechanik ist Skelett, der konkrete Befehl
+(welcher Dump-Befehl, welches Diff-Ziel) ist Füllung und entsteht mit dem
+eigenen Stack.

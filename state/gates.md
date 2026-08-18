@@ -346,3 +346,29 @@ nicht die Tabelle oben stillschweigend überschreiben.
   (Stand-Marker-Pflicht in Katalog-Einträgen).** Ein Marker-Pflicht-Check
   existiert nicht und wird erst mit N7 (Platzhalter-Check) in Phase 3
   scharf gestellt.
+
+- 2026-08-18, Doku-Gate, Vertrag `harness-fix-7-reibung-und-doktrin`,
+  Kalibrierung der Marker-Freiheit von `state/reibung.md`. Die Datei
+  behauptet in ihrem eigenen Kopfkommentar, absichtlich **keinen**
+  `Stand dieser Fassung:`-Marker zu tragen, weil Prüfung 3 sie sonst bei
+  jedem neuen Reibungseintrag rot färben würde — dieser Eintrag zeigt das,
+  statt es zu behaupten. Rot: temporär `Stand dieser Fassung: 01.08.2026`
+  in den Kopfkommentar geschrieben und in der `[FÜLLUNG]`-Beispielzeile das
+  jüngere Datum `18.08.2026` eingetragen, `node scripts/check-docs.mjs`
+  gelaufen → Exit 1, Ausgabe im Wortlaut:
+  ```
+  === Doku-Check ===
+
+  ✗ 1 Befund(e):
+
+    - state\reibung.md:26: Datum 18.08.2026 ist jünger als "Stand dieser Fassung: 01.08.2026" (Zeile 3)
+  ```
+  Grün: Marker-Zeile und Testdatum wieder entfernt, derselbe Befehl →
+  Exit 0, Ausgabe im Wortlaut:
+  ```
+  === Doku-Check ===
+
+  ✓ Keine Befunde.
+  ```
+  Damit ist die Marker-Freiheit von `state/reibung.md` eine geprüfte
+  Entscheidung und keine Vermutung.
